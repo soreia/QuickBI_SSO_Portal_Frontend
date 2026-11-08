@@ -38,3 +38,6 @@ pnpm-debug.log*
 coverage/
 .vite/
 .eslintcache
+
+# 本地截图（过程产物）
+_shots/

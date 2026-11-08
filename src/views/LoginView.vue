@@ -1,101 +1,521 @@
 <script setup>
-import { ref } from 'vue'
-
-const pending = ref(false)
+import { ref, onBeforeUnmount } from 'vue'
 
 /**
- * 占位实现：正式接入时替换为 SSO 授权跳转
- * 例：window.location.href = `${ssoAuthorizeUrl}?client_id=...&redirect_uri=...`
+ * QuickBI SSO Portal 登录页（视觉稿复刻）
+ * 说明：当前为静态 mock，登录按钮只做演示反馈，未接真实 SSO。
  */
-function startSso() {
-  pending.value = true
-  window.setTimeout(() => {
-    pending.value = false
-  }, 1200)
+
+const toastOn = ref(false)
+const toastText = ref('')
+let toastTimer = null
+
+function notify(title, body) {
+  toastText.value = title ? `${title}：${body}` : body
+  toastOn.value = true
+  clearTimeout(toastTimer)
+  toastTimer = window.setTimeout(() => {
+    toastOn.value = false
+  }, 2800)
 }
+
+function signIn() {
+  notify('SSO 登录', '演示页：正式环境会重定向到企业 SSO 授权页。')
+}
+
+onBeforeUnmount(() => {
+  clearTimeout(toastTimer)
+})
 </script>
 
 <template>
-  <main class="page">
-    <section class="card">
-      <h1>登录 QuickBI SSO Portal</h1>
-      <p class="lead">使用企业账号登录，以访问已授权的 QuickBI 报表。</p>
+  <div class="page">
+    <!-- 背景 -->
+    <div class="bg" aria-hidden="true">
+      <img src="../assets/login-bg.jpg" alt="" />
+      <div class="scrim"></div>
+    </div>
 
-      <button class="btn" type="button" :disabled="pending" @click="startSso">
-        {{ pending ? '正在跳转…' : '使用企业账号登录' }}
-      </button>
+    <!-- 登录卡片 -->
+    <main class="center">
+      <section class="card" aria-labelledby="portal-title">
+        <div class="brand">
+          <svg class="brand-mark" viewBox="0 0 48 48" role="img" aria-label="MSD">
+            <g fill="#0a7b66">
+              <ellipse cx="24" cy="16.4" rx="11.2" ry="13" />
+              <ellipse cx="24" cy="31.6" rx="11.2" ry="13" />
+              <ellipse cx="16.4" cy="24" rx="13" ry="11.2" />
+              <ellipse cx="31.6" cy="24" rx="13" ry="11.2" />
+            </g>
+            <circle cx="24" cy="24" r="5" fill="#fff" />
+          </svg>
+          <div class="brand-name">MSD</div>
+          <div class="brand-tag">INVENTING FOR LIFE</div>
+        </div>
 
-      <p class="hint">当前为工程占位页，尚未接入真实 SSO 服务。</p>
-    </section>
-  </main>
+        <h1 id="portal-title">
+          <span>Welcome to</span>
+          <span class="l2">QuickBI SSO Portal</span>
+        </h1>
+
+        <p class="lead">Access your authorized QuickBI reports with your MSD corporate account.</p>
+
+        <button class="signin" type="button" @click="signIn">
+          <span class="win-grid" aria-hidden="true">
+            <i></i><i></i><i></i><i></i>
+          </span>
+          Sign in with MSD
+        </button>
+
+        <button
+          class="help"
+          type="button"
+          @click="notify('Contact IT Support', 'IT Support 工单入口在此为演示占位。')"
+        >
+          Need help? Contact IT Support
+        </button>
+      </section>
+
+      <aside class="hero-copy" aria-label="Slogan">
+        <em>Better data.</em>
+        <em>Brighter decisions.</em>
+        <em>For a healthier tomorrow.</em>
+      </aside>
+    </main>
+
+    <!-- 页脚 -->
+    <footer class="footer">
+      <div class="copy">© 2024 Merck &amp; Co., Inc., Rahway, NJ, USA. All rights reserved.</div>
+      <nav>
+        <a href="#privacy" @click.prevent="notify('Privacy', '隐私声明页面为演示占位。')">Privacy</a>
+        <a href="#terms" @click.prevent="notify('Terms', '使用条款页面为演示占位。')">Terms</a>
+        <a href="#support" @click.prevent="notify('Support', '支持中心页面为演示占位。')">Support</a>
+      </nav>
+    </footer>
+
+    <!-- Toast -->
+    <div class="toast" :class="{ 'is-on': toastOn }" role="status" aria-live="polite">
+      {{ toastText }}
+    </div>
+  </div>
 </template>
 
 <style scoped>
 .page {
+  --ink: #1e2a47;
+  --muted: #5a6577;
+  --brand-blue: #1a5ce5;
+  --brand-blue-hover: #1549c4;
+  --card-w: 460px;
+
+  position: relative;
+  width: 100%;
+  max-width: 100vw;
   min-height: 100vh;
   display: flex;
+  flex-direction: column;
+  overflow: hidden;
+  background: #0d2233;
+  font-family:
+    'Segoe UI Variable Display', 'Segoe UI', system-ui, -apple-system, 'Helvetica Neue',
+    'PingFang SC', 'Microsoft YaHei', sans-serif;
+  -webkit-font-smoothing: antialiased;
+}
+
+/* ===== 背景 ===== */
+.bg {
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+}
+
+.bg img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: 50% 58%;
+  display: block;
+}
+
+.scrim {
+  position: absolute;
+  inset: 0;
+  background:
+    linear-gradient(
+      180deg,
+      rgba(9, 26, 42, 0.28) 0%,
+      rgba(9, 26, 42, 0.06) 34%,
+      rgba(9, 26, 42, 0.12) 62%,
+      rgba(9, 26, 42, 0.5) 100%
+    ),
+    radial-gradient(120% 90% at 50% 42%, rgba(6, 20, 32, 0) 46%, rgba(6, 20, 32, 0.34) 100%);
+}
+
+/* ===== 主内容 ===== */
+.center {
+  position: relative;
+  z-index: 1;
+  flex: 1;
+  width: 100%;
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
   align-items: center;
   justify-content: center;
-  padding: 32px 20px;
+  padding: 56px 24px 40px;
 }
 
 .card {
   width: 100%;
-  max-width: 400px;
-  background: var(--color-surface);
-  border: 1px solid var(--color-border);
-  border-radius: 10px;
-  padding: 34px 30px 26px;
-  box-shadow: var(--shadow-sm);
+  max-width: var(--card-w);
+  min-width: 0;
+  background: #fff;
+  border-radius: 6px;
+  padding: 32px 34px 24px;
+  box-shadow:
+    0 26px 70px rgba(7, 22, 38, 0.34),
+    0 2px 6px rgba(7, 22, 38, 0.16);
   text-align: center;
 }
 
+/* logo */
+.brand {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 7px;
+}
+
+.brand-mark {
+  width: 44px;
+  height: 44px;
+  display: block;
+}
+
+.brand-name {
+  font-size: 17px;
+  font-weight: 700;
+  letter-spacing: 0.16em;
+  color: var(--ink);
+  line-height: 1;
+  margin-top: 2px;
+}
+
+.brand-tag {
+  font-size: 8px;
+  font-weight: 600;
+  letter-spacing: 0.26em;
+  color: #0a7b66;
+  line-height: 1;
+}
+
+/* headline */
 h1 {
-  margin: 0;
-  font-size: 22px;
-  color: var(--color-text-strong);
+  margin: 20px 0 0;
+  font-size: 27px;
+  line-height: 1.32;
+  font-weight: 600;
+  color: var(--ink);
   letter-spacing: -0.01em;
 }
 
-.lead {
-  margin: 12px auto 24px;
-  max-width: 300px;
-  font-size: 13.5px;
-  line-height: 1.65;
-  color: var(--color-text-muted);
+h1 span {
+  display: block;
 }
 
-.btn {
+h1 .l2 {
+  font-weight: 700;
+}
+
+.lead {
+  margin: 12px auto 0;
+  max-width: 258px;
+  font-size: 14px;
+  line-height: 1.66;
+  color: var(--muted);
+  font-weight: 400;
+}
+
+/* 登录按钮 */
+.signin {
+  margin-top: 22px;
   width: 100%;
-  min-height: 46px;
+  min-height: 48px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 11px;
   border: 0;
-  border-radius: 6px;
-  background: var(--color-brand);
+  border-radius: 5px;
+  background: var(--brand-blue);
   color: #fff;
   font-family: inherit;
   font-size: 15px;
   font-weight: 600;
+  letter-spacing: 0.01em;
   cursor: pointer;
-  transition: background 0.18s ease;
+  transition:
+    background 0.18s ease,
+    transform 0.18s ease,
+    box-shadow 0.18s ease;
+  box-shadow: 0 6px 16px rgba(26, 92, 229, 0.22);
 }
 
-.btn:hover:not(:disabled) {
-  background: var(--color-brand-strong);
+.signin:hover {
+  background: var(--brand-blue-hover);
+  box-shadow: 0 8px 20px rgba(26, 92, 229, 0.28);
 }
 
-.btn:disabled {
-  opacity: 0.7;
-  cursor: progress;
+.signin:active {
+  transform: translateY(1px);
 }
 
-.btn:focus-visible {
-  outline: 2px solid var(--color-brand-strong);
+.signin:focus-visible {
+  outline: 2px solid #0a3fa8;
   outline-offset: 3px;
 }
 
-.hint {
-  margin: 18px 0 0;
-  font-size: 12px;
-  color: var(--color-text-faint);
+.win-grid {
+  display: grid;
+  grid-template-columns: 7px 7px;
+  grid-template-rows: 7px 7px;
+  gap: 2px;
+  flex: none;
+}
+
+.win-grid i {
+  background: #fff;
+  border-radius: 1px;
+  display: block;
+}
+
+.help {
+  margin-top: 10px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 32px;
+  padding: 0 6px;
+  font-size: 12.5px;
+  color: var(--brand-blue);
+  text-decoration: none;
+  border: 0;
+  background: none;
+  font-family: inherit;
+  cursor: pointer;
+}
+
+.help:hover {
+  text-decoration: underline;
+}
+
+.help:focus-visible {
+  outline: 2px solid var(--brand-blue);
+  outline-offset: 3px;
+  border-radius: 3px;
+}
+
+/* 右侧标语 */
+.hero-copy {
+  position: absolute;
+  right: 5.5%;
+  top: 50%;
+  transform: translateY(-52%);
+  max-width: 300px;
+  text-align: right;
+  color: #fff;
+  font-size: 18px;
+  line-height: 1.55;
+  font-weight: 500;
+  letter-spacing: 0.005em;
+  text-shadow: 0 2px 14px rgba(4, 16, 28, 0.55);
+}
+
+.hero-copy em {
+  display: block;
+  font-style: normal;
+  white-space: nowrap;
+}
+
+/* 页脚 */
+.footer {
+  position: relative;
+  z-index: 1;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 18px;
+  padding: 14px 22px 16px;
+  font-size: 10.5px;
+  line-height: 1.5;
+  color: rgba(255, 255, 255, 0.82);
+  text-shadow: 0 1px 6px rgba(4, 16, 28, 0.5);
+}
+
+.footer .copy {
+  max-width: 62%;
+}
+
+.footer nav {
+  display: flex;
+  gap: 16px;
+  flex: none;
+}
+
+.footer nav a {
+  color: rgba(255, 255, 255, 0.9);
+  text-decoration: none;
+  font-size: 10.5px;
+  cursor: pointer;
+  border: 0;
+  background: none;
+  padding: 0;
+  font-family: inherit;
+}
+
+.footer nav a:hover {
+  text-decoration: underline;
+}
+
+.footer nav a:focus-visible {
+  outline: 2px solid rgba(255, 255, 255, 0.85);
+  outline-offset: 3px;
+}
+
+/* toast */
+.toast {
+  position: fixed;
+  left: 50%;
+  bottom: 64px;
+  transform: translate(-50%, 10px);
+  background: rgba(14, 26, 40, 0.94);
+  color: #fff;
+  font-size: 12.5px;
+  line-height: 1.5;
+  padding: 10px 18px;
+  border-radius: 999px;
+  box-shadow: 0 10px 30px rgba(4, 14, 26, 0.4);
+  opacity: 0;
+  pointer-events: none;
+  transition:
+    opacity 0.22s ease,
+    transform 0.22s ease;
+  z-index: 20;
+  max-width: calc(100vw - 36px);
+  text-align: center;
+}
+
+.toast.is-on {
+  opacity: 1;
+  transform: translate(-50%, 0);
+}
+
+/* ===== 响应式 ===== */
+@media (max-width: 1080px) {
+  .hero-copy {
+    position: static;
+    transform: none;
+    max-width: 340px;
+    margin: 30px auto 0;
+    text-align: center;
+    font-size: 16px;
+    white-space: normal;
+    line-height: 1.55;
+    text-shadow: 0 1px 10px rgba(4, 16, 28, 0.6);
+  }
+
+  .center {
+    padding: 48px 22px 30px;
+  }
+
+  .hero-copy em {
+    white-space: normal;
+  }
+}
+
+@media (max-width: 520px) {
+  .center {
+    padding: 34px 16px 22px;
+  }
+
+  .card {
+    max-width: 100%;
+    padding: 28px 22px 20px;
+  }
+
+  .hero-copy {
+    max-width: 100%;
+  }
+
+  .footer {
+    width: 100%;
+    box-sizing: border-box;
+  }
+
+  .footer .copy {
+    word-break: break-word;
+  }
+
+  h1 {
+    font-size: 22px;
+  }
+
+  .lead {
+    font-size: 14px;
+    line-height: 1.62;
+  }
+
+  .brand-mark {
+    width: 38px;
+    height: 38px;
+  }
+
+  .help {
+    min-height: 44px;
+    font-size: 13px;
+  }
+
+  .hero-copy {
+    font-size: 15px;
+    margin-top: 22px;
+  }
+
+  .footer {
+    flex-direction: column;
+    align-items: center;
+    gap: 6px;
+    text-align: center;
+    padding: 12px 16px 14px;
+    font-size: 12px;
+  }
+
+  .footer .copy {
+    max-width: 100%;
+  }
+
+  .footer nav {
+    gap: 14px;
+  }
+
+  .footer nav a {
+    font-size: 12px;
+    padding: 10px 4px;
+    min-height: 44px;
+    min-width: 44px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .toast {
+    bottom: 80px;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .signin,
+  .toast {
+    transition: none;
+  }
 }
 </style>

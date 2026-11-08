@@ -33,6 +33,15 @@ export default [
       'vue/singleline-html-element-content-newline': 'off',
       'no-unused-vars': ['warn', { argsIgnorePattern: '^_', caughtErrors: 'none' }],
       'no-console': ['warn', { allow: ['warn', 'error'] }],
+      // 与项目写法保持一致：空标签写成 <img />，普通元素用成对标签
+      'vue/html-self-closing': [
+        'error',
+        {
+          html: { void: 'always', normal: 'never', component: 'always' },
+          svg: 'always',
+          math: 'always',
+        },
+      ],
     },
   },
 ]

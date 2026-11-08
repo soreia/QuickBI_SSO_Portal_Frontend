@@ -19,6 +19,24 @@ const routes = [
     meta: { title: '登录' },
   },
   {
+    path: '/MyReports',
+    name: 'my-reports',
+    component: () => import('@/views/MyReports.vue'),
+    meta: { title: 'My Reports' },
+  },
+  {
+    path: '/MyReports/ChinaSalesOverview',
+    name: 'china-sales-overview',
+    component: () => import('@/views/ChinaSalesOverview.vue'),
+    meta: { title: 'China Sales Overview' },
+  },
+  {
+    path: '/CommonError',
+    name: 'common-error',
+    component: () => import('@/views/CommonError.vue'),
+    meta: { title: 'Unable to load the report' },
+  },
+  {
     path: '/:pathMatch(.*)*',
     name: 'not-found',
     redirect: '/',

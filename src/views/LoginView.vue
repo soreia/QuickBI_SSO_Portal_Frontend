@@ -1,10 +1,13 @@
 <script setup>
 import { ref, onBeforeUnmount } from 'vue'
+import { useRouter } from 'vue-router'
 
 /**
  * QuickBI SSO Portal 登录页（视觉稿复刻）
- * 说明：当前为静态 mock，登录按钮只做演示反馈，未接真实 SSO。
+ * 说明：当前为静态 mock，登录按钮跳转到 MyReports，未接真实 SSO。
  */
+
+const router = useRouter()
 
 const toastOn = ref(false)
 const toastText = ref('')
@@ -20,7 +23,7 @@ function notify(title, body) {
 }
 
 function signIn() {
-  notify('SSO 登录', '演示页：正式环境会重定向到企业 SSO 授权页。')
+  router.push('/MyReports')
 }
 
 onBeforeUnmount(() => {
@@ -40,16 +43,18 @@ onBeforeUnmount(() => {
     <main class="center">
       <section class="card" aria-labelledby="portal-title">
         <div class="brand">
-          <svg class="brand-mark" viewBox="0 0 48 48" role="img" aria-label="MSD">
-            <g fill="#0a7b66">
-              <ellipse cx="24" cy="16.4" rx="11.2" ry="13" />
-              <ellipse cx="24" cy="31.6" rx="11.2" ry="13" />
-              <ellipse cx="16.4" cy="24" rx="13" ry="11.2" />
-              <ellipse cx="31.6" cy="24" rx="13" ry="11.2" />
-            </g>
-            <circle cx="24" cy="24" r="5" fill="#fff" />
-          </svg>
-          <div class="brand-name">MSD</div>
+          <div class="brand-row">
+            <svg class="brand-mark" viewBox="0 0 48 48" role="img" aria-label="MSD">
+              <g fill="#0a7b66">
+                <ellipse cx="24" cy="16.4" rx="11.2" ry="13" />
+                <ellipse cx="24" cy="31.6" rx="11.2" ry="13" />
+                <ellipse cx="16.4" cy="24" rx="13" ry="11.2" />
+                <ellipse cx="31.6" cy="24" rx="13" ry="11.2" />
+              </g>
+              <circle cx="24" cy="24" r="5" fill="#fff" />
+            </svg>
+            <div class="brand-name">MSD</div>
+          </div>
           <div class="brand-tag">INVENTING FOR LIFE</div>
         </div>
 
@@ -77,9 +82,12 @@ onBeforeUnmount(() => {
       </section>
 
       <aside class="hero-copy" aria-label="Slogan">
-        <em>Better data.</em>
-        <em>Brighter decisions.</em>
-        <em>For a healthier tomorrow.</em>
+        <em>Better</em>
+        <em>data.</em>
+        <em>Brighter</em>
+        <em>decisions.</em>
+        <em>For a healthier</em>
+        <em>tomorrow.</em>
       </aside>
     </main>
 
@@ -106,7 +114,7 @@ onBeforeUnmount(() => {
   --muted: #5a6577;
   --brand-blue: #1a5ce5;
   --brand-blue-hover: #1549c4;
-  --card-w: 460px;
+  --card-w: 540px;
 
   position: relative;
   width: 100%;
@@ -171,7 +179,7 @@ onBeforeUnmount(() => {
   min-width: 0;
   background: #fff;
   border-radius: 6px;
-  padding: 32px 34px 24px;
+  padding: 24px 40px 24px;
   box-shadow:
     0 26px 70px rgba(7, 22, 38, 0.34),
     0 2px 6px rgba(7, 22, 38, 0.16);
@@ -183,37 +191,42 @@ onBeforeUnmount(() => {
   display: flex;
   flex-direction: column;
   align-items: center;
-  gap: 7px;
+  gap: 8px;
+}
+
+.brand-row {
+  display: flex;
+  align-items: center;
+  gap: 12px;
 }
 
 .brand-mark {
-  width: 44px;
-  height: 44px;
+  width: 52px;
+  height: 52px;
   display: block;
 }
 
 .brand-name {
-  font-size: 17px;
+  font-size: 28px;
   font-weight: 700;
-  letter-spacing: 0.16em;
+  letter-spacing: 0.14em;
   color: var(--ink);
   line-height: 1;
-  margin-top: 2px;
 }
 
 .brand-tag {
-  font-size: 8px;
+  font-size: 9.5px;
   font-weight: 600;
-  letter-spacing: 0.26em;
+  letter-spacing: 0.24em;
   color: #0a7b66;
   line-height: 1;
 }
 
 /* headline */
 h1 {
-  margin: 20px 0 0;
-  font-size: 27px;
-  line-height: 1.32;
+  margin: 22px 0 0;
+  font-size: 30px;
+  line-height: 1.28;
   font-weight: 600;
   color: var(--ink);
   letter-spacing: -0.01em;
@@ -229,8 +242,8 @@ h1 .l2 {
 
 .lead {
   margin: 12px auto 0;
-  max-width: 258px;
-  font-size: 14px;
+  max-width: 288px;
+  font-size: 15px;
   line-height: 1.66;
   color: var(--muted);
   font-weight: 400;
@@ -238,19 +251,19 @@ h1 .l2 {
 
 /* 登录按钮 */
 .signin {
-  margin-top: 22px;
+  margin-top: 24px;
   width: 100%;
-  min-height: 48px;
+  min-height: 56px;
   display: flex;
   align-items: center;
   justify-content: center;
-  gap: 11px;
+  gap: 12px;
   border: 0;
   border-radius: 5px;
   background: var(--brand-blue);
   color: #fff;
   font-family: inherit;
-  font-size: 15px;
+  font-size: 16px;
   font-weight: 600;
   letter-spacing: 0.01em;
   cursor: pointer;
@@ -290,13 +303,13 @@ h1 .l2 {
 }
 
 .help {
-  margin-top: 10px;
+  margin-top: 12px;
   display: inline-flex;
   align-items: center;
   justify-content: center;
   min-height: 32px;
   padding: 0 6px;
-  font-size: 12.5px;
+  font-size: 13px;
   color: var(--brand-blue);
   text-decoration: none;
   border: 0;
@@ -324,8 +337,8 @@ h1 .l2 {
   max-width: 300px;
   text-align: right;
   color: #fff;
-  font-size: 18px;
-  line-height: 1.55;
+  font-size: 27px;
+  line-height: 1.3;
   font-weight: 500;
   letter-spacing: 0.005em;
   text-shadow: 0 2px 14px rgba(4, 16, 28, 0.55);
@@ -346,7 +359,7 @@ h1 .l2 {
   justify-content: space-between;
   gap: 18px;
   padding: 14px 22px 16px;
-  font-size: 10.5px;
+  font-size: 10px;
   line-height: 1.5;
   color: rgba(255, 255, 255, 0.82);
   text-shadow: 0 1px 6px rgba(4, 16, 28, 0.5);
@@ -457,17 +470,21 @@ h1 .l2 {
   }
 
   h1 {
-    font-size: 22px;
+    font-size: 24px;
   }
 
   .lead {
-    font-size: 14px;
+    font-size: 14.5px;
     line-height: 1.62;
   }
 
   .brand-mark {
-    width: 38px;
-    height: 38px;
+    width: 42px;
+    height: 42px;
+  }
+
+  .brand-name {
+    font-size: 20px;
   }
 
   .help {
@@ -476,8 +493,9 @@ h1 .l2 {
   }
 
   .hero-copy {
-    font-size: 15px;
+    font-size: 16px;
     margin-top: 22px;
+    line-height: 1.45;
   }
 
   .footer {

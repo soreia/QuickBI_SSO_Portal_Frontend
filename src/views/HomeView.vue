@@ -22,6 +22,8 @@ const stack = [
       </ul>
 
       <nav class="links">
+        <router-link to="/MyReports">前往 MyReports</router-link>
+        <router-link to="/CommonError">前往 Common Error</router-link>
         <router-link to="/login">前往登录页</router-link>
       </nav>
     </div>
@@ -88,6 +90,9 @@ h1 {
 
 .links {
   margin-top: 22px;
+  display: flex;
+  align-items: center;
+  gap: 18px;
 }
 
 .links a {

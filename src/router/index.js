@@ -37,6 +37,18 @@ const routes = [
     meta: { title: 'Unable to load the report' },
   },
   {
+    path: '/AuditLogs',
+    name: 'audit-logs',
+    component: () => import('@/views/AuditLogs.vue'),
+    meta: { title: 'Audit logs' },
+  },
+  {
+    path: '/UserAccessSync',
+    name: 'user-access-sync',
+    component: () => import('@/views/UserAccessSync.vue'),
+    meta: { title: 'User & Access Sync' },
+  },
+  {
     path: '/:pathMatch(.*)*',
     name: 'not-found',
     redirect: '/',

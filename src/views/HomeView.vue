@@ -23,6 +23,8 @@ const stack = [
 
       <nav class="links">
         <router-link to="/MyReports">前往 MyReports</router-link>
+        <router-link to="/AuditLogs">前往 Audit Logs</router-link>
+        <router-link to="/UserAccessSync">前往 User Access Sync</router-link>
         <router-link to="/CommonError">前往 Common Error</router-link>
         <router-link to="/login">前往登录页</router-link>
       </nav>

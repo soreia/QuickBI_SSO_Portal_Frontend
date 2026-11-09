@@ -19,6 +19,13 @@ const routes = [
     meta: { title: '登录' },
   },
   {
+    // Entra ID 认证完成后回跳地址，需与应用注册里的重定向 URI 一致
+    path: '/auth/callback',
+    name: 'auth-callback',
+    component: () => import('@/views/AuthCallbackView.vue'),
+    meta: { title: '正在登录' },
+  },
+  {
     path: '/MyReports',
     name: 'my-reports',
     component: () => import('@/views/MyReports.vue'),

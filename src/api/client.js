@@ -9,6 +9,22 @@
 const BASE_URL = import.meta.env.VITE_API_BASE_URL || '/api'
 const DEFAULT_TIMEOUT = 15000
 
+export const TOKEN_KEY = 'quickbi_token'
+
+export function getToken() {
+  return window.localStorage.getItem(TOKEN_KEY) || ''
+}
+
+export function setToken(token) {
+  if (token) {
+    window.localStorage.setItem(TOKEN_KEY, token)
+  } else {
+    window.localStorage.removeItem(TOKEN_KEY)
+  }
+}
+
+export { BASE_URL }
+
 /**
  * @param {string} path 相对路径，如 '/quickbi/reports'
  * @param {object} [options]
@@ -31,12 +47,13 @@ export async function request(path, options = {}) {
 
   const isPlainObject = body !== null && typeof body === 'object' && !(body instanceof FormData)
 
+  const token = getToken()
+
   const init = {
     method,
     headers: {
       Accept: 'application/json',
-      // 认证信息占位：接入 SSO 后在此注入 Bearer Token
-      // Authorization: `Bearer ${token}`,
+      ...(token ? { Authorization: `Bearer ${token}` } : {}),
       ...(isPlainObject ? { 'Content-Type': 'application/json' } : {}),
       ...headers,
     },

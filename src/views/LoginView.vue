@@ -1,13 +1,11 @@
 <script setup>
 import { ref, onBeforeUnmount } from 'vue'
-import { useRouter } from 'vue-router'
+import { startMsdLogin } from '@/api/auth'
 
 /**
  * QuickBI SSO Portal 登录页（视觉稿复刻）
- * 说明：当前为静态 mock，登录按钮跳转到 MyReports，未接真实 SSO。
+ * 说明：登录按钮走 MSD Entra ID 单点登录，由后端 /auth/msd/authorize 发起 OIDC 流程。
  */
-
-const router = useRouter()
 
 const toastOn = ref(false)
 const toastText = ref('')
@@ -23,7 +21,7 @@ function notify(title, body) {
 }
 
 function signIn() {
-  router.push('/MyReports')
+  startMsdLogin()
 }
 
 onBeforeUnmount(() => {

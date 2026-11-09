@@ -1,5 +1,5 @@
 <script setup>
-import { computed, ref } from 'vue'
+import { computed, ref, watch } from 'vue'
 import { useRouter } from 'vue-router'
 
 /**
@@ -11,7 +11,7 @@ const router = useRouter()
 
 const user = { name: 'John Li', org: 'MSD China', initials: 'JL' }
 
-const rows = [
+const BASE_ROWS = [
   {
     id: 'LI123456',
     name: 'John Li',
@@ -92,6 +92,557 @@ const rows = [
   },
 ]
 
+/** 追加 mock（44 条）：[ISID, 姓名, Department, MSD 状态, Mapping Status, User Sync Status, User ID, 报表数, 日期, 时间] */
+const MORE_ROWS = [
+  [
+    'AN112233',
+    'Anna Ng',
+    'Commercial',
+    'Active',
+    'Mapped',
+    'Success',
+    '3c7f1a92...',
+    4,
+    'Oct 23, 2026',
+    '16:05',
+  ],
+  [
+    'KE445566',
+    'Kevin Zhao',
+    'Finance',
+    'Active',
+    'Mapped',
+    'Success',
+    '8d2b6e41...',
+    7,
+    'Oct 23, 2026',
+    '14:52',
+  ],
+  [
+    'SO778899',
+    'Sophie Lin',
+    'Operations',
+    'Active',
+    'Mapped',
+    'Success',
+    '1f9c3d55...',
+    5,
+    'Oct 23, 2026',
+    '11:38',
+  ],
+  [
+    'PM220011',
+    'Peter Ma',
+    'People & Org',
+    'Inactive',
+    'Pending',
+    'Partial',
+    '4a8e7c12...',
+    2,
+    'Oct 22, 2026',
+    '17:20',
+  ],
+  [
+    'GH334455',
+    'Grace Hu',
+    'Marketing',
+    'Active',
+    'Mapped',
+    'Success',
+    '9b5d2f68...',
+    3,
+    'Oct 22, 2026',
+    '15:40',
+  ],
+  [
+    'RT556677',
+    'Ryan Tang',
+    'Commercial',
+    'Active',
+    'Not Mapped',
+    'N/A',
+    '2e6a4b97...',
+    0,
+    'Oct 22, 2026',
+    '13:15',
+  ],
+  [
+    'NG668899',
+    'Nina Gu',
+    'Finance',
+    'Active',
+    'Mapped',
+    'Success',
+    '7c1f9a34...',
+    6,
+    'Oct 22, 2026',
+    '10:02',
+  ],
+  [
+    'ES770011',
+    'Eric Shen',
+    'Operations',
+    'Inactive',
+    'Pending',
+    'Partial',
+    '5d3b8e72...',
+    1,
+    'Oct 21, 2026',
+    '16:48',
+  ],
+  [
+    'IF881122',
+    'Ivy Fang',
+    'People & Org',
+    'Active',
+    'Mapped',
+    'Success',
+    'c4a7e913...',
+    4,
+    'Oct 21, 2026',
+    '14:26',
+  ],
+  [
+    'LD992233',
+    'Leo Dai',
+    'Marketing',
+    'Active',
+    'Mapped',
+    'Partial',
+    '3b9d1c65...',
+    5,
+    'Oct 21, 2026',
+    '09:37',
+  ],
+  [
+    'ZQ103344',
+    'Zoe Qin',
+    'Commercial',
+    'Active',
+    'Pending',
+    'Partial',
+    '6e2f7a18...',
+    2,
+    'Oct 20, 2026',
+    '17:05',
+  ],
+  [
+    'SB114455',
+    'Sean Bao',
+    'Finance',
+    'Inactive',
+    'Not Mapped',
+    'N/A',
+    'a8c3d529...',
+    0,
+    'Oct 20, 2026',
+    '15:19',
+  ],
+  [
+    'AP125566',
+    'Amy Pan',
+    'Operations',
+    'Active',
+    'Mapped',
+    'Success',
+    '1d6b4e83...',
+    8,
+    'Oct 20, 2026',
+    '11:44',
+  ],
+  [
+    'TY136677',
+    'Tony Ye',
+    'People & Org',
+    'Active',
+    'Mapped',
+    'Success',
+    '9e5a2f47...',
+    3,
+    'Oct 19, 2026',
+    '16:31',
+  ],
+  [
+    'CX147788',
+    'Coco Xia',
+    'Marketing',
+    'Active',
+    'Pending',
+    'Partial',
+    '4f8c1b96...',
+    2,
+    'Oct 19, 2026',
+    '14:08',
+  ],
+  [
+    'JL158899',
+    'Jack Lou',
+    'Commercial',
+    'Active',
+    'Mapped',
+    'Success',
+    '8a3d6c25...',
+    6,
+    'Oct 19, 2026',
+    '10:53',
+  ],
+  [
+    'BH169911',
+    'Bella Han',
+    'Finance',
+    'Active',
+    'Mapped',
+    'Success',
+    '2c7e9b54...',
+    5,
+    'Oct 18, 2026',
+    '17:12',
+  ],
+  [
+    'OL170022',
+    'Owen Lu',
+    'Operations',
+    'Inactive',
+    'Not Mapped',
+    'N/A',
+    '5b1f8d73...',
+    0,
+    'Oct 18, 2026',
+    '15:05',
+  ],
+  [
+    'KS181133',
+    'Kira Su',
+    'People & Org',
+    'Active',
+    'Mapped',
+    'Partial',
+    '7e4a2c19...',
+    3,
+    'Oct 18, 2026',
+    '11:20',
+  ],
+  [
+    'HW192244',
+    'Hank Wei',
+    'Marketing',
+    'Active',
+    'Mapped',
+    'Success',
+    '3a9c5e68...',
+    7,
+    'Oct 17, 2026',
+    '16:02',
+  ],
+  [
+    'LD203355',
+    'Lily Deng',
+    'Commercial',
+    'Active',
+    'Pending',
+    'Partial',
+    '6d1b7f42...',
+    2,
+    'Oct 17, 2026',
+    '13:47',
+  ],
+  [
+    'MF214466',
+    'Mason Fang',
+    'Finance',
+    'Inactive',
+    'Pending',
+    'Partial',
+    '9c8e3a51...',
+    1,
+    'Oct 17, 2026',
+    '09:58',
+  ],
+  [
+    'NC225577',
+    'Nora Cai',
+    'Operations',
+    'Active',
+    'Mapped',
+    'Success',
+    '4b6f9d28...',
+    6,
+    'Oct 16, 2026',
+    '17:31',
+  ],
+  [
+    'VH236688',
+    'Victor Hou',
+    'People & Org',
+    'Active',
+    'Mapped',
+    'Success',
+    '8f2c4a75...',
+    4,
+    'Oct 16, 2026',
+    '14:15',
+  ],
+  [
+    'ET247799',
+    'Ella Tong',
+    'Marketing',
+    'Active',
+    'Not Mapped',
+    'N/A',
+    '1a7d5c94...',
+    0,
+    'Oct 16, 2026',
+    '10:40',
+  ],
+  [
+    'SX258811',
+    'Sam Xie',
+    'Commercial',
+    'Active',
+    'Mapped',
+    'Success',
+    '5e9b1f36...',
+    9,
+    'Oct 15, 2026',
+    '16:22',
+  ],
+  [
+    'MK269922',
+    'Mia Kong',
+    'Finance',
+    'Active',
+    'Mapped',
+    'Success',
+    '2d4c8e71...',
+    3,
+    'Oct 15, 2026',
+    '13:05',
+  ],
+  [
+    'AR270033',
+    'Adam Ren',
+    'Operations',
+    'Inactive',
+    'Pending',
+    'Partial',
+    '7b3a6d58...',
+    2,
+    'Oct 15, 2026',
+    '09:14',
+  ],
+  [
+    'RJ281144',
+    'Ruby Jin',
+    'People & Org',
+    'Active',
+    'Mapped',
+    'Success',
+    'c9e5b2a4...',
+    5,
+    'Oct 14, 2026',
+    '16:47',
+  ],
+  [
+    'FG292255',
+    'Felix Ge',
+    'Marketing',
+    'Active',
+    'Mapped',
+    'Success',
+    '3f8d1c69...',
+    4,
+    'Oct 14, 2026',
+    '14:33',
+  ],
+  [
+    'TB303366',
+    'Tina Bai',
+    'Commercial',
+    'Active',
+    'Mapped',
+    'Partial',
+    '6a2e9b47...',
+    3,
+    'Oct 14, 2026',
+    '10:11',
+  ],
+  [
+    'HW314477',
+    'Hugo Wan',
+    'Finance',
+    'Active',
+    'Pending',
+    'Partial',
+    '8c5f3a92...',
+    1,
+    'Oct 13, 2026',
+    '17:26',
+  ],
+  [
+    'DY325588',
+    'Daisy Yu',
+    'Operations',
+    'Active',
+    'Mapped',
+    'Success',
+    '1e7b4c85...',
+    7,
+    'Oct 13, 2026',
+    '15:09',
+  ],
+  [
+    'AQ336699',
+    'Alan Qi',
+    'People & Org',
+    'Inactive',
+    'Not Mapped',
+    'N/A',
+    '4d9a6e13...',
+    0,
+    'Oct 13, 2026',
+    '11:53',
+  ],
+  [
+    'JK347711',
+    'Juno Ke',
+    'Marketing',
+    'Active',
+    'Mapped',
+    'Success',
+    '9b3c8f52...',
+    6,
+    'Oct 12, 2026',
+    '16:35',
+  ],
+  [
+    'EF358822',
+    'Eva Fu',
+    'Commercial',
+    'Active',
+    'Mapped',
+    'Success',
+    '2f6d1a94...',
+    5,
+    'Oct 12, 2026',
+    '14:01',
+  ],
+  [
+    'BM369933',
+    'Bob Mi',
+    'Finance',
+    'Inactive',
+    'Pending',
+    'Partial',
+    '7a8e4b25...',
+    2,
+    'Oct 12, 2026',
+    '10:28',
+  ],
+  [
+    'LS371044',
+    'Lena Shi',
+    'Operations',
+    'Active',
+    'Mapped',
+    'Success',
+    '5c1f7d68...',
+    4,
+    'Oct 11, 2026',
+    '17:14',
+  ],
+  [
+    'MN382155',
+    'Max Niu',
+    'People & Org',
+    'Active',
+    'Mapped',
+    'Success',
+    '8e4a2c97...',
+    3,
+    'Oct 11, 2026',
+    '13:42',
+  ],
+  [
+    'YP393266',
+    'Yara Pu',
+    'Marketing',
+    'Active',
+    'Pending',
+    'Partial',
+    '1b9d5e73...',
+    1,
+    'Oct 11, 2026',
+    '09:56',
+  ],
+  [
+    'NZ404377',
+    'Neo Zhan',
+    'Commercial',
+    'Active',
+    'Mapped',
+    'Success',
+    '6e3c8a15...',
+    8,
+    'Oct 10, 2026',
+    '16:08',
+  ],
+  [
+    'OR415488',
+    'Oliva Rui',
+    'Finance',
+    'Active',
+    'Mapped',
+    'Success',
+    '3a7b1f64...',
+    4,
+    'Oct 10, 2026',
+    '14:39',
+  ],
+  [
+    'KY426599',
+    'Ken Yue',
+    'Operations',
+    'Inactive',
+    'Not Mapped',
+    'N/A',
+    '9d5f2b87...',
+    0,
+    'Oct 10, 2026',
+    '11:02',
+  ],
+  [
+    'SM437711',
+    'Sara Miao',
+    'People & Org',
+    'Active',
+    'Mapped',
+    'Partial',
+    '4c8a6e31...',
+    3,
+    'Oct 09, 2026',
+    '15:27',
+  ],
+]
+
+const rows = [
+  ...BASE_ROWS,
+  ...MORE_ROWS.map(
+    ([id, name, department, msdStatus, mapping, sync, userId, reports, date, time]) => ({
+      id,
+      name,
+      department,
+      msdStatus,
+      account: `MSD_${id}`,
+      userId,
+      mapping,
+      sync,
+      reports,
+      date,
+      time,
+    }),
+  ),
+]
+
 /** 部门下拉选项：从表格数据动态去重并按字母序排列（首项 All Departments 作为“全部”） */
 const departmentOptions = computed(() =>
   [...new Set(rows.map((row) => row.department))].sort((a, b) => a.localeCompare(b)),
@@ -120,7 +671,17 @@ const mappingFilter = ref('')
 const keyword = ref('')
 
 /** 可搜索字段：表格里能展示的文本列（ISID / 姓名 / 部门 / 账号等） */
-const SEARCH_FIELDS = ['id', 'name', 'department', 'msdStatus', 'account', 'userId', 'mapping', 'sync', 'date']
+const SEARCH_FIELDS = [
+  'id',
+  'name',
+  'department',
+  'msdStatus',
+  'account',
+  'userId',
+  'mapping',
+  'sync',
+  'date',
+]
 
 /** 单行包含匹配（大小写不敏感，沿用 AuditLogs 的 matchRow 写法） */
 function matchRow(row, query) {
@@ -139,25 +700,125 @@ const filteredRows = computed(() => {
   )
 })
 
-/** 页面上的后端总用户量，与表格过滤无关 */
-const TOTAL_USERS = 512
+/** 分页：作用于当前过滤后的结果 */
+const pageSize = ref(10)
+const pageSizes = [5, 10, 20]
+const currentPage = ref(1)
 
-/** 计数文案：展示行数跟过滤结果一致，总数仍为后端总量 */
-const countText = computed(() => {
-  const total = filteredRows.value.length
-  if (!total) return `Showing 0 of ${TOTAL_USERS} users`
-  return `Showing 1–${total} of ${TOTAL_USERS} users`
+const totalPages = computed(() =>
+  Math.max(1, Math.ceil(filteredRows.value.length / pageSize.value)),
+)
+
+const pageRows = computed(() => {
+  const start = (currentPage.value - 1) * pageSize.value
+  return filteredRows.value.slice(start, start + pageSize.value)
 })
 
-/** 右侧详情面板固定展示 John Li（LI123456）那一行，行被过滤掉时面板转为空状态 */
-const sideRowVisible = computed(() => filteredRows.value.some((row) => row.id === 'LI123456'))
+/** 页码序列：≤7 页全列，>7 页首尾 + 当前位置±1 加省略号（与 AuditLogs 一致） */
+const pageItems = computed(() => {
+  const total = totalPages.value
+  const current = currentPage.value
+  if (total <= 7) return Array.from({ length: total }, (_, index) => index + 1)
 
-/** Reset：部门、User Sync Status、Mapping Status 回到默认项，搜索框清空，表格恢复全部 */
+  const items = [1]
+  let start = current - 1
+  let end = current + 1
+  if (current <= 4) {
+    start = 2
+    end = 5
+  }
+  if (current >= total - 3) {
+    start = total - 4
+    end = total - 1
+  }
+  if (start > 2) items.push('start-dots')
+  for (let page = start; page <= end; page += 1) items.push(page)
+  if (end < total - 1) items.push('end-dots')
+  items.push(total)
+  return items
+})
+
+/** 计数文案：当前页区间 + 过滤后的真实条数（不再使用与分页矛盾的后端 512） */
+const countText = computed(() => {
+  const total = filteredRows.value.length
+  if (!total) return 'Showing 0 of 0 users'
+  const start = (currentPage.value - 1) * pageSize.value + 1
+  const end = Math.min(currentPage.value * pageSize.value, total)
+  return `Showing ${start}–${end} of ${total} users`
+})
+
+/** 右侧明细面板显隐；收起时表格占满整行 */
+const sideOpen = ref(true)
+
+/** 右侧详情面板固定展示 John Li（LI123456）那一行，该行不在当前页时面板转为空状态 */
+const sideRowVisible = computed(() => pageRows.value.some((row) => row.id === 'LI123456'))
+
+/** 多选：以 ISID 为 key，跨页保留 */
+const selectedIds = ref(new Set())
+
+const isSelected = (id) => selectedIds.value.has(id)
+
+/** 单行勾选/取消 */
+function toggleRow(id) {
+  const next = new Set(selectedIds.value)
+  if (next.has(id)) next.delete(id)
+  else next.add(id)
+  selectedIds.value = next
+}
+
+/** 表头状态只反映当前页：当前页全选 / 部分选中 */
+const pageAllSelected = computed(
+  () => pageRows.value.length > 0 && pageRows.value.every((row) => selectedIds.value.has(row.id)),
+)
+
+const pageSomeSelected = computed(
+  () => !pageAllSelected.value && pageRows.value.some((row) => selectedIds.value.has(row.id)),
+)
+
+/** 表头全选/取消：只作用于当前页可见行，其他页已选中的行保留 */
+function togglePage() {
+  const next = new Set(selectedIds.value)
+  if (pageAllSelected.value) pageRows.value.forEach((row) => next.delete(row.id))
+  else pageRows.value.forEach((row) => next.add(row.id))
+  selectedIds.value = next
+}
+
+/** 原生 checkbox 的 indeterminate 是 DOM 属性，需要手动同步 */
+const headCheckbox = ref(null)
+
+watch(
+  pageSomeSelected,
+  (some) => {
+    if (headCheckbox.value) headCheckbox.value.indeterminate = some
+  },
+  { immediate: true },
+)
+
+/** 筛选变化后，把已被筛掉的行从选中集合中移出 */
+watch([departmentFilter, syncStatusFilter, mappingFilter, keyword], () => {
+  const visible = new Set(filteredRows.value.map((row) => row.id))
+  const kept = [...selectedIds.value].filter((id) => visible.has(id))
+  if (kept.length !== selectedIds.value.size) selectedIds.value = new Set(kept)
+})
+
+/** 筛选条件或页大小变化时回到第 1 页 */
+watch([departmentFilter, syncStatusFilter, mappingFilter, keyword, pageSize], () => {
+  currentPage.value = 1
+})
+
+/** 总页数变小时把当前页收敛到合法范围 */
+watch(totalPages, (total) => {
+  if (currentPage.value > total) currentPage.value = total
+})
+
+/** Reset：三个下拉回默认项、搜索框清空，页码回到第 1 页（页大小作为展示偏好保持不变），勾选一并清空 */
 function resetFilters() {
   departmentFilter.value = ''
   syncStatusFilter.value = ''
   mappingFilter.value = ''
   keyword.value = ''
+  currentPage.value = 1
+  selectedIds.value = new Set()
 }
 
 const tones = {
@@ -172,8 +833,6 @@ const tones = {
   Published: 'green',
 }
 const toneOf = (value) => tones[value] || 'gray'
-
-const pageNumbers = ['1', '2', '3', '4', '5']
 
 const reports = [
   { name: 'China Sales Overview', worksId: 'ccd3428c-d123...', type: 'Dashboard' },
@@ -268,7 +927,7 @@ function logout() {
         </button>
       </div>
 
-      <div class="grid">
+      <div class="grid" :class="{ 'is-single': !sideOpen }">
         <section class="content">
           <!-- 标签页 -->
           <nav class="tabs" aria-label="Sync views">
@@ -285,13 +944,21 @@ function logout() {
                 <circle cx="8.8" cy="8.8" r="5.6" fill="none" stroke="#8b93a3" stroke-width="1.7" />
                 <path d="M13.2 13.2 17 17" stroke="#8b93a3" stroke-width="1.7" />
               </svg>
-              <input v-model="keyword" type="text" placeholder="Search by ISID, name or department..." />
+              <input
+                v-model="keyword"
+                type="text"
+                placeholder="Search by ISID, name or department..."
+              />
             </label>
 
             <label class="select">
               <select v-model="departmentFilter" aria-label="All Departments">
                 <option value="">All Departments</option>
-                <option v-for="department in departmentOptions" :key="department" :value="department">
+                <option
+                  v-for="department in departmentOptions"
+                  :key="department"
+                  :value="department"
+                >
                   {{ department }}
                 </option>
               </select>
@@ -330,7 +997,33 @@ function logout() {
           <!-- 用户表 -->
           <div class="table-wrap">
             <div class="row head">
-              <span class="cell"><span class="cb" aria-hidden="true"></span></span>
+              <span class="cell cb-cell">
+                <input
+                  ref="headCheckbox"
+                  class="cb-input"
+                  type="checkbox"
+                  aria-label="Select all rows on this page"
+                  :checked="pageAllSelected"
+                  @change="togglePage"
+                />
+                <span
+                  class="cb"
+                  :class="{ on: pageAllSelected || pageSomeSelected }"
+                  aria-hidden="true"
+                >
+                  <svg v-if="pageAllSelected" viewBox="0 0 12 12">
+                    <path
+                      d="M2.4 6.2 4.9 8.7 9.6 3.6"
+                      fill="none"
+                      stroke="#fff"
+                      stroke-width="1.7"
+                    />
+                  </svg>
+                  <svg v-else-if="pageSomeSelected" viewBox="0 0 12 12">
+                    <path d="M2.6 6h6.8" fill="none" stroke="#fff" stroke-width="1.7" />
+                  </svg>
+                </span>
+              </span>
               <span class="cell">
                 ISID
                 <svg class="sort" viewBox="0 0 12 12" aria-hidden="true">
@@ -362,14 +1055,21 @@ function logout() {
             </div>
 
             <div
-              v-for="row in filteredRows"
+              v-for="row in pageRows"
               :key="row.id"
               class="row"
-              :class="{ selected: row.id === 'LI123456' }"
+              :class="{ selected: isSelected(row.id) }"
             >
-              <span class="cell">
-                <span class="cb" :class="{ on: row.id === 'LI123456' }">
-                  <svg v-if="row.id === 'LI123456'" viewBox="0 0 12 12" aria-hidden="true">
+              <span class="cell cb-cell">
+                <input
+                  class="cb-input"
+                  type="checkbox"
+                  :aria-label="`Select ${row.name}`"
+                  :checked="isSelected(row.id)"
+                  @change="toggleRow(row.id)"
+                />
+                <span class="cb" :class="{ on: isSelected(row.id) }" aria-hidden="true">
+                  <svg v-if="isSelected(row.id)" viewBox="0 0 12 12">
                     <path
                       d="M2.4 6.2 4.9 8.7 9.6 3.6"
                       fill="none"
@@ -416,27 +1116,61 @@ function logout() {
           <div class="list-foot">
             <span class="count">{{ countText }}</span>
             <div class="pager">
-              <button class="page-arrow" type="button" aria-label="Previous page">
-                <svg viewBox="0 0 12 12" aria-hidden="true">
-                  <path d="M7.6 2.6 3.8 6l3.8 3.4" fill="none" stroke="#8b93a3" stroke-width="1.5" />
-                </svg>
-              </button>
               <button
-                v-for="n in pageNumbers"
-                :key="n"
-                class="page-num"
-                :class="{ 'is-active': n === '1' }"
+                class="page-arrow"
                 type="button"
+                aria-label="Previous page"
+                :disabled="currentPage === 1"
+                @click="currentPage -= 1"
               >
-                {{ n }}
-              </button>
-              <span class="page-dots">...</span>
-              <button class="page-num" type="button">86</button>
-              <button class="page-arrow" type="button" aria-label="Next page">
                 <svg viewBox="0 0 12 12" aria-hidden="true">
-                  <path d="M4.4 2.6 8.2 6l-3.8 3.4" fill="none" stroke="#8b93a3" stroke-width="1.5" />
+                  <path
+                    d="M7.6 2.6 3.8 6l3.8 3.4"
+                    fill="none"
+                    stroke="#8b93a3"
+                    stroke-width="1.5"
+                  />
                 </svg>
               </button>
+              <template v-for="item in pageItems" :key="item">
+                <span v-if="typeof item === 'string'" class="page-dots">...</span>
+                <button
+                  v-else
+                  class="page-num"
+                  :class="{ 'is-active': item === currentPage }"
+                  type="button"
+                  :aria-current="item === currentPage ? 'page' : undefined"
+                  @click="currentPage = item"
+                >
+                  {{ item }}
+                </button>
+              </template>
+              <button
+                class="page-arrow"
+                type="button"
+                aria-label="Next page"
+                :disabled="currentPage === totalPages"
+                @click="currentPage += 1"
+              >
+                <svg viewBox="0 0 12 12" aria-hidden="true">
+                  <path
+                    d="M4.4 2.6 8.2 6l-3.8 3.4"
+                    fill="none"
+                    stroke="#8b93a3"
+                    stroke-width="1.5"
+                  />
+                </svg>
+              </button>
+              <label class="page-size">
+                <select v-model.number="pageSize" aria-label="Rows per page">
+                  <option v-for="size in pageSizes" :key="size" :value="size">
+                    {{ size }} / page
+                  </option>
+                </select>
+                <svg class="caret" viewBox="0 0 12 12" aria-hidden="true">
+                  <path d="M2.4 4.4 6 8l3.6-3.6" fill="none" stroke="#6b7488" stroke-width="1.5" />
+                </svg>
+              </label>
             </div>
           </div>
 
@@ -544,11 +1278,36 @@ function logout() {
           </div>
         </section>
 
+        <!-- 详情面板收起后的轻量恢复入口：贴在表格卡片右缘的竖条 -->
+        <button
+          v-if="!sideOpen"
+          class="side-restore"
+          type="button"
+          aria-label="Show user details"
+          title="Show user details"
+          @click="sideOpen = true"
+        >
+          <svg viewBox="0 0 8 12" aria-hidden="true">
+            <path
+              d="M6.4 1.6 2 6l4.4 4.4"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="1.4"
+              stroke-linecap="round"
+            />
+          </svg>
+        </button>
+
         <!-- 右侧用户详情 -->
-        <aside class="side">
+        <aside v-if="sideOpen" class="side">
           <div class="side-head">
             <h2>{{ user.name }}</h2>
-            <button class="close" type="button" aria-label="Close">
+            <button
+              class="close"
+              type="button"
+              aria-label="Close user details"
+              @click="sideOpen = false"
+            >
               <svg viewBox="0 0 24 24" aria-hidden="true">
                 <path
                   d="M6 6l12 12M18 6L6 18"
@@ -670,8 +1429,14 @@ function logout() {
   background: #f9fafb;
   color: var(--color-text, #3a4459);
   font-family:
-    'Segoe UI Variable Display', 'Segoe UI', system-ui, -apple-system, 'Helvetica Neue',
-    'PingFang SC', 'Microsoft YaHei', sans-serif;
+    'Segoe UI Variable Display',
+    'Segoe UI',
+    system-ui,
+    -apple-system,
+    'Helvetica Neue',
+    'PingFang SC',
+    'Microsoft YaHei',
+    sans-serif;
 }
 
 /* ===== 顶部导航 ===== */
@@ -905,11 +1670,50 @@ h1 {
 
 /* ===== 两栏 ===== */
 .grid {
+  position: relative;
   display: grid;
   grid-template-columns: minmax(0, 1fr) 436px;
   gap: 20px;
   align-items: start;
   margin-top: 18px;
+}
+
+/* 详情面板收起后表格占满整行 */
+.grid.is-single {
+  grid-template-columns: minmax(0, 1fr);
+}
+
+/* 恢复入口：表格卡片右缘的轻量竖条 */
+.side-restore {
+  position: absolute;
+  top: 50%;
+  right: 0;
+  transform: translateY(-50%);
+  width: 16px;
+  height: 64px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0;
+  border: 1px solid var(--line);
+  border-right: 0;
+  border-radius: 6px 0 0 6px;
+  background: #fff;
+  color: #8b93a3;
+  cursor: pointer;
+  z-index: 5;
+}
+
+.side-restore:hover,
+.side-restore:focus-visible {
+  color: var(--accent);
+  border-color: #cfe0ff;
+}
+
+.side-restore svg {
+  width: 8px;
+  height: 12px;
+  display: block;
 }
 
 .content {
@@ -1136,6 +1940,26 @@ h1 {
   display: block;
 }
 
+/* 首列复选框：原生 input 透明覆盖在自绘方框上，保留键盘可达性 */
+.cb-cell {
+  position: relative;
+}
+
+.cb-input {
+  position: absolute;
+  left: 0;
+  width: 15px;
+  height: 15px;
+  margin: 0;
+  opacity: 0;
+  cursor: pointer;
+}
+
+.cb-input:focus-visible + .cb {
+  border-color: var(--accent);
+  box-shadow: 0 0 0 3px rgba(11, 99, 246, 0.15);
+}
+
 .cb {
   width: 15px;
   height: 15px;
@@ -1267,6 +2091,48 @@ h1 {
   padding: 0 2px;
   font-size: 12px;
   color: var(--tiny);
+}
+
+/* 边界页码按钮置灰 */
+.page-arrow:disabled {
+  border-color: #eef1f6;
+  background: #f7f9fd;
+  cursor: not-allowed;
+}
+
+.page-arrow:disabled svg path {
+  stroke: #c4cbd8;
+}
+
+.page-size {
+  position: relative;
+  display: flex;
+  align-items: center;
+  height: 30px;
+  margin-left: 6px;
+  padding: 0 28px 0 10px;
+  background: #fff;
+  border: 1px solid #dfe4ee;
+  border-radius: 6px;
+}
+
+.page-size select {
+  appearance: none;
+  border: 0;
+  outline: none;
+  background: none;
+  font-family: inherit;
+  font-size: 12px;
+  color: #2b3752;
+  cursor: pointer;
+}
+
+.page-size .caret {
+  position: absolute;
+  right: 9px;
+  width: 10px;
+  height: 10px;
+  pointer-events: none;
 }
 
 /* ===== 统计卡片 ===== */

@@ -27,66 +27,466 @@ const USERS = {
  * 2026-09 ~ 2026-10，整体按时间倒序，同一天内时间递减
  */
 const RAW_LOGS = [
-  ['Oct 31, 2026 17:29:46', 'Report Access', 'chart', 'WA456123', 'Expense Dashboard', 'View Report', 'Denied'],
+  [
+    'Oct 31, 2026 17:29:46',
+    'Report Access',
+    'chart',
+    'WA456123',
+    'Expense Dashboard',
+    'View Report',
+    'Denied',
+  ],
   ['Oct 31, 2026 13:55:12', 'Login', 'login', 'XU789321', '-', 'Login Failed', 'Failed'],
-  ['Oct 30, 2026 09:21:04', 'Access Sync', 'access', '-', 'Authorized Works', 'Scheduled Sync', 'Success'],
-  ['Oct 29, 2026 16:03:37', 'Report Access', 'chart', 'LI123456', 'China Sales Overview', 'View Report', 'Success'],
-  ['Oct 29, 2026 11:48:19', 'Ticket Issuance', 'ticket', 'ZH987654', 'Works ID: aaa1204', 'Create Ticket', 'Success'],
-  ['Oct 28, 2026 14:26:51', 'User Sync', 'sync', 'CH321789', 'Quick BI User', 'Sync User', 'Success'],
-  ['Oct 26, 2026 15:36:22', 'Report Access', 'chart', 'LI998877', 'Market Share Analysis', 'View Report', 'Success'],
-  ['Oct 26, 2026 10:14:08', 'Admin', 'admin', 'LI998877', 'System Configuration', 'Update Config', 'Success'],
-  ['Oct 24, 2026 10:32:10', 'Report Access', 'chart', 'LI123456', 'China Sales Overview', 'View Report', 'Success'],
-  ['Oct 24, 2026 10:31:45', 'Ticket Issuance', 'ticket', 'LI123456', 'Works ID: ccd3428c', 'Create Ticket', 'Success'],
+  [
+    'Oct 30, 2026 09:21:04',
+    'Access Sync',
+    'access',
+    '-',
+    'Authorized Works',
+    'Scheduled Sync',
+    'Success',
+  ],
+  [
+    'Oct 29, 2026 16:03:37',
+    'Report Access',
+    'chart',
+    'LI123456',
+    'China Sales Overview',
+    'View Report',
+    'Success',
+  ],
+  [
+    'Oct 29, 2026 11:48:19',
+    'Ticket Issuance',
+    'ticket',
+    'ZH987654',
+    'Works ID: aaa1204',
+    'Create Ticket',
+    'Success',
+  ],
+  [
+    'Oct 28, 2026 14:26:51',
+    'User Sync',
+    'sync',
+    'CH321789',
+    'Quick BI User',
+    'Sync User',
+    'Success',
+  ],
+  [
+    'Oct 26, 2026 15:36:22',
+    'Report Access',
+    'chart',
+    'LI998877',
+    'Market Share Analysis',
+    'View Report',
+    'Success',
+  ],
+  [
+    'Oct 26, 2026 10:14:08',
+    'Admin',
+    'admin',
+    'LI998877',
+    'System Configuration',
+    'Update Config',
+    'Success',
+  ],
+  [
+    'Oct 24, 2026 10:32:10',
+    'Report Access',
+    'chart',
+    'LI123456',
+    'China Sales Overview',
+    'View Report',
+    'Success',
+  ],
+  [
+    'Oct 24, 2026 10:31:45',
+    'Ticket Issuance',
+    'ticket',
+    'LI123456',
+    'Works ID: ccd3428c',
+    'Create Ticket',
+    'Success',
+  ],
   ['Oct 24, 2026 10:28:12', 'Login', 'login', 'ZH987654', '-', 'Login Success', 'Success'],
-  ['Oct 24, 2026 09:50:07', 'Access Sync', 'access', '-', 'Authorized Works', 'Scheduled Sync', 'Success'],
-  ['Oct 24, 2026 08:26:41', 'Ticket Issuance', 'ticket', 'WA456123', 'Works ID: b1e7743', 'Create Ticket', 'Denied'],
-  ['Oct 23, 2026 17:05:38', 'Report Access', 'chart', 'CH321789', 'Expense Dashboard', 'View Report', 'Success'],
+  [
+    'Oct 24, 2026 09:50:07',
+    'Access Sync',
+    'access',
+    '-',
+    'Authorized Works',
+    'Scheduled Sync',
+    'Success',
+  ],
+  [
+    'Oct 24, 2026 08:26:41',
+    'Ticket Issuance',
+    'ticket',
+    'WA456123',
+    'Works ID: b1e7743',
+    'Create Ticket',
+    'Denied',
+  ],
+  [
+    'Oct 23, 2026 17:05:38',
+    'Report Access',
+    'chart',
+    'CH321789',
+    'Expense Dashboard',
+    'View Report',
+    'Success',
+  ],
   ['Oct 22, 2026 17:12:05', 'Login', 'login', 'LI998877', '-', 'Login Success', 'Success'],
-  ['Oct 22, 2026 16:25:33', 'Report Access', 'chart', 'WA456123', 'Expense Dashboard', 'View Report', 'Denied'],
-  ['Oct 22, 2026 11:08:19', 'Access Sync', 'access', '-', 'Authorized Works', 'Scheduled Sync', 'Failed'],
-  ['Oct 21, 2026 10:02:51', 'Ticket Issuance', 'ticket', 'LI123456', 'Works ID: 9d5f210', 'Create Ticket', 'Success'],
-  ['Oct 20, 2026 15:21:08', 'User Sync', 'sync', 'CH321789', 'Quick BI User', 'Sync User', 'Success'],
-  ['Oct 20, 2026 14:47:22', 'Report Access', 'chart', 'XU789321', 'China Sales Overview', 'View Report', 'Denied'],
+  [
+    'Oct 22, 2026 16:25:33',
+    'Report Access',
+    'chart',
+    'WA456123',
+    'Expense Dashboard',
+    'View Report',
+    'Denied',
+  ],
+  [
+    'Oct 22, 2026 11:08:19',
+    'Access Sync',
+    'access',
+    '-',
+    'Authorized Works',
+    'Scheduled Sync',
+    'Failed',
+  ],
+  [
+    'Oct 21, 2026 10:02:51',
+    'Ticket Issuance',
+    'ticket',
+    'LI123456',
+    'Works ID: 9d5f210',
+    'Create Ticket',
+    'Success',
+  ],
+  [
+    'Oct 20, 2026 15:21:08',
+    'User Sync',
+    'sync',
+    'CH321789',
+    'Quick BI User',
+    'Sync User',
+    'Success',
+  ],
+  [
+    'Oct 20, 2026 14:47:22',
+    'Report Access',
+    'chart',
+    'XU789321',
+    'China Sales Overview',
+    'View Report',
+    'Denied',
+  ],
   ['Oct 20, 2026 09:12:36', 'Login', 'login', 'WA456123', '-', 'Login Success', 'Success'],
-  ['Oct 19, 2026 11:19:44', 'Access Sync', 'access', '-', 'Authorized Works', 'Scheduled Sync', 'Success'],
-  ['Oct 18, 2026 16:40:11', 'Report Access', 'chart', 'ZH987654', 'Market Share Analysis', 'View Report', 'Success'],
-  ['Oct 18, 2026 10:22:47', 'Ticket Issuance', 'ticket', 'CH321789', 'Works ID: e7a4521', 'Create Ticket', 'Success'],
-  ['Oct 16, 2026 09:33:12', 'User Sync', 'sync', 'WA456123', 'Quick BI User', 'Sync User', 'Success'],
-  ['Oct 15, 2026 13:05:29', 'Report Access', 'chart', 'LI123456', 'Expense Dashboard', 'View Report', 'Success'],
+  [
+    'Oct 19, 2026 11:19:44',
+    'Access Sync',
+    'access',
+    '-',
+    'Authorized Works',
+    'Scheduled Sync',
+    'Success',
+  ],
+  [
+    'Oct 18, 2026 16:40:11',
+    'Report Access',
+    'chart',
+    'ZH987654',
+    'Market Share Analysis',
+    'View Report',
+    'Success',
+  ],
+  [
+    'Oct 18, 2026 10:22:47',
+    'Ticket Issuance',
+    'ticket',
+    'CH321789',
+    'Works ID: e7a4521',
+    'Create Ticket',
+    'Success',
+  ],
+  [
+    'Oct 16, 2026 09:33:12',
+    'User Sync',
+    'sync',
+    'WA456123',
+    'Quick BI User',
+    'Sync User',
+    'Success',
+  ],
+  [
+    'Oct 15, 2026 13:05:29',
+    'Report Access',
+    'chart',
+    'LI123456',
+    'Expense Dashboard',
+    'View Report',
+    'Success',
+  ],
   ['Oct 15, 2026 11:42:03', 'Login', 'login', 'ZH987654', '-', 'Login Success', 'Success'],
-  ['Oct 15, 2026 08:57:14', 'Access Sync', 'access', '-', 'Authorized Works', 'Scheduled Sync', 'Success'],
-  ['Oct 14, 2026 12:21:56', 'Ticket Issuance', 'ticket', 'XU789321', 'Works ID: f2c8890', 'Create Ticket', 'Failed'],
-  ['Oct 12, 2026 17:33:48', 'Report Access', 'chart', 'WA456123', 'China Sales Overview', 'View Report', 'Success'],
-  ['Oct 12, 2026 15:10:26', 'Admin', 'admin', 'LI123456', 'System Configuration', 'Update Role', 'Success'],
+  [
+    'Oct 15, 2026 08:57:14',
+    'Access Sync',
+    'access',
+    '-',
+    'Authorized Works',
+    'Scheduled Sync',
+    'Success',
+  ],
+  [
+    'Oct 14, 2026 12:21:56',
+    'Ticket Issuance',
+    'ticket',
+    'XU789321',
+    'Works ID: f2c8890',
+    'Create Ticket',
+    'Failed',
+  ],
+  [
+    'Oct 12, 2026 17:33:48',
+    'Report Access',
+    'chart',
+    'WA456123',
+    'China Sales Overview',
+    'View Report',
+    'Success',
+  ],
+  [
+    'Oct 12, 2026 15:10:26',
+    'Admin',
+    'admin',
+    'LI123456',
+    'System Configuration',
+    'Update Role',
+    'Success',
+  ],
   ['Oct 12, 2026 10:05:17', 'Login', 'login', 'CH321789', '-', 'Login Success', 'Success'],
-  ['Oct 10, 2026 16:58:32', 'Access Sync', 'access', '-', 'Authorized Works', 'Scheduled Sync', 'Success'],
-  ['Oct 10, 2026 14:03:09', 'Report Access', 'chart', 'LI998877', 'Market Share Analysis', 'View Report', 'Success'],
-  ['Oct 10, 2026 09:28:45', 'Ticket Issuance', 'ticket', 'ZH987654', 'Works ID: ***0786', 'Create Ticket', 'Failed'],
-  ['Oct 09, 2026 13:57:08', 'User Sync', 'sync', 'LI998877', 'Quick BI User', 'Sync User', 'Success'],
-  ['Oct 08, 2026 14:18:55', 'Access Sync', 'access', '-', 'Authorized Works', 'Scheduled Sync', 'Success'],
-  ['Oct 08, 2026 11:15:20', 'Ticket Issuance', 'ticket', 'ZH987654', 'Works ID: ***0786', 'Create Ticket', 'Failed'],
+  [
+    'Oct 10, 2026 16:58:32',
+    'Access Sync',
+    'access',
+    '-',
+    'Authorized Works',
+    'Scheduled Sync',
+    'Success',
+  ],
+  [
+    'Oct 10, 2026 14:03:09',
+    'Report Access',
+    'chart',
+    'LI998877',
+    'Market Share Analysis',
+    'View Report',
+    'Success',
+  ],
+  [
+    'Oct 10, 2026 09:28:45',
+    'Ticket Issuance',
+    'ticket',
+    'ZH987654',
+    'Works ID: ***0786',
+    'Create Ticket',
+    'Failed',
+  ],
+  [
+    'Oct 09, 2026 13:57:08',
+    'User Sync',
+    'sync',
+    'LI998877',
+    'Quick BI User',
+    'Sync User',
+    'Success',
+  ],
+  [
+    'Oct 08, 2026 14:18:55',
+    'Access Sync',
+    'access',
+    '-',
+    'Authorized Works',
+    'Scheduled Sync',
+    'Success',
+  ],
+  [
+    'Oct 08, 2026 11:15:20',
+    'Ticket Issuance',
+    'ticket',
+    'ZH987654',
+    'Works ID: ***0786',
+    'Create Ticket',
+    'Failed',
+  ],
   ['Oct 08, 2026 08:44:02', 'Login', 'login', 'LI123456', '-', 'Login Failed', 'Failed'],
-  ['Oct 06, 2026 15:44:21', 'Report Access', 'chart', 'XU789321', 'Expense Dashboard', 'View Report', 'Denied'],
-  ['Oct 05, 2026 16:12:38', 'Ticket Issuance', 'ticket', 'WA456123', 'Works ID: 5b3c118', 'Create Ticket', 'Success'],
-  ['Oct 05, 2026 13:29:51', 'Access Sync', 'access', '-', 'Authorized Works', 'Scheduled Sync', 'Denied'],
-  ['Oct 05, 2026 10:58:41', 'Admin', 'admin', 'LI998877', 'System Configuration', 'Update Config', 'Success'],
-  ['Oct 03, 2026 15:20:07', 'Report Access', 'chart', 'CH321789', 'Market Share Analysis', 'View Report', 'Success'],
-  ['Oct 03, 2026 12:06:33', 'User Sync', 'sync', 'XU789321', 'Quick BI User', 'Sync User', 'Failed'],
+  [
+    'Oct 06, 2026 15:44:21',
+    'Report Access',
+    'chart',
+    'XU789321',
+    'Expense Dashboard',
+    'View Report',
+    'Denied',
+  ],
+  [
+    'Oct 05, 2026 16:12:38',
+    'Ticket Issuance',
+    'ticket',
+    'WA456123',
+    'Works ID: 5b3c118',
+    'Create Ticket',
+    'Success',
+  ],
+  [
+    'Oct 05, 2026 13:29:51',
+    'Access Sync',
+    'access',
+    '-',
+    'Authorized Works',
+    'Scheduled Sync',
+    'Denied',
+  ],
+  [
+    'Oct 05, 2026 10:58:41',
+    'Admin',
+    'admin',
+    'LI998877',
+    'System Configuration',
+    'Update Config',
+    'Success',
+  ],
+  [
+    'Oct 03, 2026 15:20:07',
+    'Report Access',
+    'chart',
+    'CH321789',
+    'Market Share Analysis',
+    'View Report',
+    'Success',
+  ],
+  [
+    'Oct 03, 2026 12:06:33',
+    'User Sync',
+    'sync',
+    'XU789321',
+    'Quick BI User',
+    'Sync User',
+    'Failed',
+  ],
   ['Oct 03, 2026 09:45:32', 'Login', 'login', 'WA456123', '-', 'Login Failed', 'Failed'],
-  ['Oct 02, 2026 16:18:05', 'Ticket Issuance', 'ticket', 'LI998877', 'Works ID: 4a2d905', 'Create Ticket', 'Success'],
-  ['Oct 02, 2026 10:33:40', 'Access Sync', 'access', '-', 'Authorized Works', 'Scheduled Sync', 'Success'],
+  [
+    'Oct 02, 2026 16:18:05',
+    'Ticket Issuance',
+    'ticket',
+    'LI998877',
+    'Works ID: 4a2d905',
+    'Create Ticket',
+    'Success',
+  ],
+  [
+    'Oct 02, 2026 10:33:40',
+    'Access Sync',
+    'access',
+    '-',
+    'Authorized Works',
+    'Scheduled Sync',
+    'Success',
+  ],
   ['Oct 01, 2026 17:41:19', 'Login', 'login', 'XU789321', '-', 'Login Success', 'Success'],
-  ['Oct 01, 2026 14:52:26', 'Report Access', 'chart', 'ZH987654', 'China Sales Overview', 'View Report', 'Denied'],
-  ['Oct 01, 2026 11:30:14', 'Access Sync', 'access', '-', 'Authorized Works', 'Scheduled Sync', 'Success'],
-  ['Oct 01, 2026 08:32:11', 'Report Access', 'chart', 'LI123456', 'Market Share Analysis', 'View Report', 'Success'],
-  ['Sep 30, 2026 15:12:33', 'Access Sync', 'access', '-', 'Authorized Works', 'Scheduled Sync', 'Denied'],
-  ['Sep 28, 2026 10:44:27', 'Ticket Issuance', 'ticket', 'CH321789', 'Works ID: 8e6b447', 'Create Ticket', 'Success'],
+  [
+    'Oct 01, 2026 14:52:26',
+    'Report Access',
+    'chart',
+    'ZH987654',
+    'China Sales Overview',
+    'View Report',
+    'Denied',
+  ],
+  [
+    'Oct 01, 2026 11:30:14',
+    'Access Sync',
+    'access',
+    '-',
+    'Authorized Works',
+    'Scheduled Sync',
+    'Success',
+  ],
+  [
+    'Oct 01, 2026 08:32:11',
+    'Report Access',
+    'chart',
+    'LI123456',
+    'Market Share Analysis',
+    'View Report',
+    'Success',
+  ],
+  [
+    'Sep 30, 2026 15:12:33',
+    'Access Sync',
+    'access',
+    '-',
+    'Authorized Works',
+    'Scheduled Sync',
+    'Denied',
+  ],
+  [
+    'Sep 28, 2026 10:44:27',
+    'Ticket Issuance',
+    'ticket',
+    'CH321789',
+    'Works ID: 8e6b447',
+    'Create Ticket',
+    'Success',
+  ],
   ['Sep 25, 2026 16:38:55', 'Login', 'login', 'LI998877', '-', 'Login Success', 'Success'],
-  ['Sep 22, 2026 13:07:41', 'Report Access', 'chart', 'WA456123', 'Expense Dashboard', 'View Report', 'Success'],
-  ['Sep 18, 2026 09:56:12', 'User Sync', 'sync', 'ZH987654', 'Quick BI User', 'Sync User', 'Success'],
-  ['Sep 15, 2026 14:23:08', 'Admin', 'admin', 'CH321789', 'System Configuration', 'Update Role', 'Success'],
-  ['Sep 10, 2026 11:35:46', 'Report Access', 'chart', 'LI123456', 'China Sales Overview', 'View Report', 'Success'],
-  ['Sep 03, 2026 08:41:20', 'Ticket Issuance', 'ticket', 'XU789321', 'Works ID: 2f1a663', 'Create Ticket', 'Denied'],
+  [
+    'Sep 22, 2026 13:07:41',
+    'Report Access',
+    'chart',
+    'WA456123',
+    'Expense Dashboard',
+    'View Report',
+    'Success',
+  ],
+  [
+    'Sep 18, 2026 09:56:12',
+    'User Sync',
+    'sync',
+    'ZH987654',
+    'Quick BI User',
+    'Sync User',
+    'Success',
+  ],
+  [
+    'Sep 15, 2026 14:23:08',
+    'Admin',
+    'admin',
+    'CH321789',
+    'System Configuration',
+    'Update Role',
+    'Success',
+  ],
+  [
+    'Sep 10, 2026 11:35:46',
+    'Report Access',
+    'chart',
+    'LI123456',
+    'China Sales Overview',
+    'View Report',
+    'Success',
+  ],
+  [
+    'Sep 03, 2026 08:41:20',
+    'Ticket Issuance',
+    'ticket',
+    'XU789321',
+    'Works ID: 2f1a663',
+    'Create Ticket',
+    'Denied',
+  ],
 ]
 
 const logs = RAW_LOGS.map(([time, event, icon, isid, resource, action, status]) => ({
@@ -104,7 +504,7 @@ const tones = { Success: 'green', Denied: 'red', Failed: 'red' }
 const toneOf = (value) => tones[value] || 'gray'
 
 /** 右侧 Log Details 面板显隐；收起时表格区自动占满整行 */
-const detailsOpen = ref(true)
+const detailsOpen = ref(false)
 
 /** 表格行里没有的字段：保持静态展示，不随所选中行变化 */
 const STATIC_DETAILS = {
@@ -177,8 +577,18 @@ const searchColumn = ref('all')
 const activeColumn = ref('all')
 
 const LOG_MONTHS = {
-  Jan: 0, Feb: 1, Mar: 2, Apr: 3, May: 4, Jun: 5,
-  Jul: 6, Aug: 7, Sep: 8, Oct: 9, Nov: 10, Dec: 11,
+  Jan: 0,
+  Feb: 1,
+  Mar: 2,
+  Apr: 3,
+  May: 4,
+  Jun: 5,
+  Jul: 6,
+  Aug: 7,
+  Sep: 8,
+  Oct: 9,
+  Nov: 10,
+  Dec: 11,
 }
 
 /** 把 "Oct 24, 2026 10:32:10" 解析成本地 Date（真实日期，便于与时间区间比较）；解析失败返回 null */
@@ -290,12 +700,32 @@ function logout() {
 
 /* ===== Time Range 日期范围选择（原生实现，无第三方日期库） ===== */
 const MONTH_SHORT = [
-  'Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun',
-  'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec',
+  'Jan',
+  'Feb',
+  'Mar',
+  'Apr',
+  'May',
+  'Jun',
+  'Jul',
+  'Aug',
+  'Sep',
+  'Oct',
+  'Nov',
+  'Dec',
 ]
 const MONTH_FULL = [
-  'January', 'February', 'March', 'April', 'May', 'June',
-  'July', 'August', 'September', 'October', 'November', 'December',
+  'January',
+  'February',
+  'March',
+  'April',
+  'May',
+  'June',
+  'July',
+  'August',
+  'September',
+  'October',
+  'November',
+  'December',
 ]
 const WEEKDAYS = ['Su', 'Mo', 'Tu', 'We', 'Th', 'Fr', 'Sa']
 
@@ -322,14 +752,24 @@ const viewMonth = ref(DEFAULT_START.getMonth())
 const panel = ref('day')
 /** 年份面板的起始年，一屏 12 年 */
 const yearBase = ref(0)
-/** 已点下的开始日期；为空表示还在等第一次点击 */
-const pendingStart = ref(null)
+/** 当前日历要修改的区间端点 */
+const activeEndpoint = ref('start')
+const selectionError = ref('')
 
 const rangeWrap = ref(null)
 
 /** 任一筛选条件或页大小变化，回到第 1 页 */
 watch(
-  [activeKeyword, activeIsid, activeColumn, eventType, statusFilter, rangeStart, rangeEnd, pageSize],
+  [
+    activeKeyword,
+    activeIsid,
+    activeColumn,
+    eventType,
+    statusFilter,
+    rangeStart,
+    rangeEnd,
+    pageSize,
+  ],
   () => {
     currentPage.value = 1
   },
@@ -347,13 +787,11 @@ watch(pageRows, (rows) => {
   }
 })
 
-const tipText = computed(() => (pendingStart.value ? 'Select end date' : 'Select start date'))
+const tipText = computed(() => selectionError.value || `Select ${activeEndpoint.value} date`)
 const yearLabel = computed(() =>
   panel.value === 'year' ? `${yearBase.value} – ${yearBase.value + 11}` : String(viewYear.value),
 )
-const yearOptions = computed(() =>
-  Array.from({ length: 12 }, (_, i) => yearBase.value + i),
-)
+const yearOptions = computed(() => Array.from({ length: 12 }, (_, i) => yearBase.value + i))
 
 /** 6 × 7 = 42 格，月初按星期补位，保证月份切换时高度不跳 */
 const cells = computed(() => {
@@ -372,9 +810,6 @@ const cells = computed(() => {
 })
 
 function dayClass(date) {
-  if (pendingStart.value) {
-    return { 'is-start': sameDay(date, pendingStart.value) }
-  }
   const stamp = dayStamp(date)
   return {
     'is-start': sameDay(date, rangeStart.value),
@@ -383,16 +818,18 @@ function dayClass(date) {
   }
 }
 
-function togglePicker() {
-  if (pickerOpen.value) {
+function togglePicker(endpoint) {
+  if (pickerOpen.value && activeEndpoint.value === endpoint) {
     pickerOpen.value = false
-    pendingStart.value = null
+    selectionError.value = ''
     return
   }
-  pendingStart.value = null
+  activeEndpoint.value = endpoint
+  selectionError.value = ''
   panel.value = 'day'
-  viewYear.value = rangeStart.value.getFullYear()
-  viewMonth.value = rangeStart.value.getMonth()
+  const selectedDate = endpoint === 'start' ? rangeStart.value : rangeEnd.value
+  viewYear.value = selectedDate.getFullYear()
+  viewMonth.value = selectedDate.getMonth()
   pickerOpen.value = true
 }
 
@@ -433,21 +870,23 @@ function pickYear(year) {
   panel.value = 'day'
 }
 
-/**
- * 点日期：第一次只改起点（终点保持原值，不联动、不交换），第二次只改终点。
- * 起点晚于终点时按实际值过滤，命中为空即走空状态。
- */
+/** 选择日期只更新当前端点，并确保开始日期不晚于结束日期。 */
 function pickDay(date) {
   const picked = new Date(date.getFullYear(), date.getMonth(), date.getDate())
-
-  if (!pendingStart.value) {
+  if (activeEndpoint.value === 'start') {
+    if (dayStamp(picked) > dayStamp(rangeEnd.value)) {
+      selectionError.value = 'Start date cannot be after end date'
+      return
+    }
     rangeStart.value = picked
-    pendingStart.value = picked
-    return
+  } else {
+    if (dayStamp(picked) < dayStamp(rangeStart.value)) {
+      selectionError.value = 'End date cannot be before start date'
+      return
+    }
+    rangeEnd.value = picked
   }
-
-  rangeEnd.value = picked
-  pendingStart.value = null
+  selectionError.value = ''
   pickerOpen.value = false
 }
 
@@ -455,7 +894,7 @@ function pickDay(date) {
 function clearRange() {
   rangeStart.value = DEFAULT_START
   rangeEnd.value = DEFAULT_END
-  pendingStart.value = null
+  selectionError.value = ''
   pickerOpen.value = false
 }
 
@@ -479,14 +918,12 @@ function onDocMouseDown(event) {
   if (!pickerOpen.value) return
   if (rangeWrap.value && !rangeWrap.value.contains(event.target)) {
     pickerOpen.value = false
-    pendingStart.value = null
   }
 }
 
 function onDocKeyDown(event) {
   if (event.key === 'Escape' && pickerOpen.value) {
     pickerOpen.value = false
-    pendingStart.value = null
   }
 }
 
@@ -596,13 +1033,7 @@ onBeforeUnmount(() => {
             <div class="field">
               <span class="field-label">Time Range</span>
               <div ref="rangeWrap" class="range-wrap">
-                <button
-                  class="range"
-                  type="button"
-                  aria-haspopup="dialog"
-                  :aria-expanded="pickerOpen"
-                  @click="togglePicker"
-                >
+                <div class="range">
                   <svg class="range-icon" viewBox="0 0 20 20" aria-hidden="true">
                     <rect
                       x="3"
@@ -621,7 +1052,16 @@ onBeforeUnmount(() => {
                       stroke-linecap="round"
                     />
                   </svg>
-                  <span>{{ fmt(rangeStart) }}</span>
+                  <button
+                    class="range-date"
+                    type="button"
+                    aria-label="Select start date"
+                    aria-haspopup="dialog"
+                    :aria-expanded="pickerOpen && activeEndpoint === 'start'"
+                    @click="togglePicker('start')"
+                  >
+                    {{ fmt(rangeStart) }}
+                  </button>
                   <svg class="range-arrow" viewBox="0 0 16 12" aria-hidden="true">
                     <path
                       d="M2 6h11m0 0-3.4-3.4M13 6l-3.4 3.4"
@@ -631,10 +1071,24 @@ onBeforeUnmount(() => {
                       stroke-linecap="round"
                     />
                   </svg>
-                  <span>{{ fmt(rangeEnd) }}</span>
-                </button>
+                  <button
+                    class="range-date"
+                    type="button"
+                    aria-label="Select end date"
+                    aria-haspopup="dialog"
+                    :aria-expanded="pickerOpen && activeEndpoint === 'end'"
+                    @click="togglePicker('end')"
+                  >
+                    {{ fmt(rangeEnd) }}
+                  </button>
+                </div>
 
-                <div v-if="pickerOpen" class="calendar" role="dialog" aria-label="Select time range">
+                <div
+                  v-if="pickerOpen"
+                  class="calendar"
+                  role="dialog"
+                  aria-label="Select time range"
+                >
                   <div class="cal-head">
                     <button
                       class="cal-nav"
@@ -738,7 +1192,13 @@ onBeforeUnmount(() => {
                   </template>
 
                   <div class="cal-foot">
-                    <span class="cal-tip">{{ tipText }}</span>
+                    <span
+                      class="cal-tip"
+                      :class="{ 'is-error': selectionError }"
+                      aria-live="polite"
+                    >
+                      {{ tipText }}
+                    </span>
                     <button class="cal-clear" type="button" @click="clearRange">Clear</button>
                   </div>
                 </div>
@@ -804,12 +1264,21 @@ onBeforeUnmount(() => {
                 <span class="field-label">Column</span>
                 <label class="select">
                   <select v-model="searchColumn" aria-label="Search column">
-                    <option v-for="column in SEARCH_COLUMNS" :key="column.value" :value="column.value">
+                    <option
+                      v-for="column in SEARCH_COLUMNS"
+                      :key="column.value"
+                      :value="column.value"
+                    >
                       {{ column.label }}
                     </option>
                   </select>
                   <svg class="caret" viewBox="0 0 12 12" aria-hidden="true">
-                    <path d="M2.4 4.4 6 8l3.6-3.6" fill="none" stroke="#6b7488" stroke-width="1.5" />
+                    <path
+                      d="M2.4 4.4 6 8l3.6-3.6"
+                      fill="none"
+                      stroke="#6b7488"
+                      stroke-width="1.5"
+                    />
                   </svg>
                 </label>
               </div>
@@ -865,14 +1334,18 @@ onBeforeUnmount(() => {
                       stroke="#0b63f6"
                       stroke-width="1.5"
                     />
-                    <circle cx="11.6" cy="8.6" r="1.6" fill="none" stroke="#0b63f6" stroke-width="1.3" />
+                    <circle
+                      cx="11.6"
+                      cy="8.6"
+                      r="1.6"
+                      fill="none"
+                      stroke="#0b63f6"
+                      stroke-width="1.3"
+                    />
                   </svg>
                   <svg v-else-if="row.icon === 'login'" viewBox="0 0 20 20">
                     <circle cx="10" cy="6.2" r="3.6" fill="#0b63f6" />
-                    <path
-                      d="M3.4 17.6c0-3.5 2.9-5.8 6.6-5.8s6.6 2.3 6.6 5.8z"
-                      fill="#0b63f6"
-                    />
+                    <path d="M3.4 17.6c0-3.5 2.9-5.8 6.6-5.8s6.6 2.3 6.6 5.8z" fill="#0b63f6" />
                   </svg>
                   <svg v-else-if="row.icon === 'sync'" viewBox="0 0 20 20">
                     <path
@@ -924,8 +1397,20 @@ onBeforeUnmount(() => {
             <div v-if="!visibleLogs.length" class="empty">
               <span class="empty-icon" aria-hidden="true">
                 <svg viewBox="0 0 24 24">
-                  <circle cx="10.5" cy="10.5" r="6.5" fill="none" stroke="#b9c0cf" stroke-width="1.8" />
-                  <path d="M15.4 15.4 20 20" stroke="#b9c0cf" stroke-width="1.8" stroke-linecap="round" />
+                  <circle
+                    cx="10.5"
+                    cy="10.5"
+                    r="6.5"
+                    fill="none"
+                    stroke="#b9c0cf"
+                    stroke-width="1.8"
+                  />
+                  <path
+                    d="M15.4 15.4 20 20"
+                    stroke="#b9c0cf"
+                    stroke-width="1.8"
+                    stroke-linecap="round"
+                  />
                 </svg>
               </span>
               <span class="empty-title">No matching records</span>
@@ -948,7 +1433,12 @@ onBeforeUnmount(() => {
                 @click="currentPage -= 1"
               >
                 <svg viewBox="0 0 12 12" aria-hidden="true">
-                  <path d="M7.6 2.6 3.8 6l3.8 3.4" fill="none" stroke="#8b93a3" stroke-width="1.5" />
+                  <path
+                    d="M7.6 2.6 3.8 6l3.8 3.4"
+                    fill="none"
+                    stroke="#8b93a3"
+                    stroke-width="1.5"
+                  />
                 </svg>
               </button>
               <template v-for="item in pageItems" :key="item">
@@ -972,12 +1462,19 @@ onBeforeUnmount(() => {
                 @click="currentPage += 1"
               >
                 <svg viewBox="0 0 12 12" aria-hidden="true">
-                  <path d="M4.4 2.6 8.2 6l-3.8 3.4" fill="none" stroke="#8b93a3" stroke-width="1.5" />
+                  <path
+                    d="M4.4 2.6 8.2 6l-3.8 3.4"
+                    fill="none"
+                    stroke="#8b93a3"
+                    stroke-width="1.5"
+                  />
                 </svg>
               </button>
               <label class="page-size">
                 <select v-model.number="pageSize" aria-label="Rows per page">
-                  <option v-for="size in pageSizes" :key="size" :value="size">{{ size }} / page</option>
+                  <option v-for="size in pageSizes" :key="size" :value="size">
+                    {{ size }} / page
+                  </option>
                 </select>
                 <svg class="caret" viewBox="0 0 12 12" aria-hidden="true">
                   <path d="M2.4 4.4 6 8l3.6-3.6" fill="none" stroke="#6b7488" stroke-width="1.5" />
@@ -1011,7 +1508,12 @@ onBeforeUnmount(() => {
         <aside v-if="detailsOpen" class="side">
           <div class="side-head">
             <h2>Log Details</h2>
-            <button class="close" type="button" aria-label="Close log details" @click="detailsOpen = false">
+            <button
+              class="close"
+              type="button"
+              aria-label="Close log details"
+              @click="detailsOpen = false"
+            >
               <svg viewBox="0 0 24 24" aria-hidden="true">
                 <path
                   d="M6 6l12 12M18 6L6 18"
@@ -1034,7 +1536,9 @@ onBeforeUnmount(() => {
                 </svg>
               </span>
               <span class="banner-title">{{ currentLog.event }}</span>
-              <span class="badge" :class="`badge-${toneOf(currentLog.status)}`">{{ currentLog.status }}</span>
+              <span class="badge" :class="`badge-${toneOf(currentLog.status)}`">{{
+                currentLog.status
+              }}</span>
             </div>
 
             <dl class="kv">
@@ -1043,7 +1547,9 @@ onBeforeUnmount(() => {
                 <dd :class="{ ok: item.label === 'Status' }">{{ item.value }}</dd>
               </template>
               <dt>Status</dt>
-              <dd :class="currentLog.status === 'Success' ? 'ok' : 'bad'">{{ currentLog.status }}</dd>
+              <dd :class="currentLog.status === 'Success' ? 'ok' : 'bad'">
+                {{ currentLog.status }}
+              </dd>
             </dl>
 
             <div class="divider"></div>
@@ -1056,7 +1562,10 @@ onBeforeUnmount(() => {
           </template>
 
           <div v-else class="details-empty">
-            <p>No log selected. Click <span class="details-empty-link">View</span> on a row to see its details.</p>
+            <p>
+              No log selected. Click <span class="details-empty-link">View</span> on a row to see
+              its details.
+            </p>
           </div>
         </aside>
       </div>
@@ -1086,8 +1595,14 @@ onBeforeUnmount(() => {
   background: #f9fafb;
   color: var(--color-text, #3a4459);
   font-family:
-    'Segoe UI Variable Display', 'Segoe UI', system-ui, -apple-system, 'Helvetica Neue',
-    'PingFang SC', 'Microsoft YaHei', sans-serif;
+    'Segoe UI Variable Display',
+    'Segoe UI',
+    system-ui,
+    -apple-system,
+    'Helvetica Neue',
+    'PingFang SC',
+    'Microsoft YaHei',
+    sans-serif;
 }
 
 /* ===== 顶部导航（与 MyReports 一致） ===== */
@@ -1459,6 +1974,21 @@ h1 {
   display: block;
 }
 
+.range-date {
+  padding: 0;
+  border: 0;
+  background: transparent;
+  color: inherit;
+  font: inherit;
+  cursor: pointer;
+}
+
+.range-date:focus-visible {
+  outline: 2px solid #0b63f6;
+  outline-offset: 3px;
+  border-radius: 2px;
+}
+
 /* ===== Time Range 日历弹层 ===== */
 .range-wrap {
   position: relative;
@@ -1664,6 +2194,10 @@ h1 {
 .cal-tip {
   font-size: 11px;
   color: var(--tiny);
+}
+
+.cal-tip.is-error {
+  color: #c2413b;
 }
 
 .cal-clear {

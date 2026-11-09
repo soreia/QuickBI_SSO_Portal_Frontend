@@ -643,6 +643,11 @@ const rows = [
   ),
 ]
 
+const totalUsers = new Set(rows.map((row) => row.id)).size
+const activeUsers = rows.filter((row) => row.msdStatus === 'Active').length
+const inactiveUsers = rows.filter((row) => row.msdStatus === 'Inactive').length
+const totalAuthorizedReports = rows.reduce((total, row) => total + row.reports, 0)
+
 /** 部门下拉选项：从表格数据动态去重并按字母序排列（首项 All Departments 作为“全部”） */
 const departmentOptions = computed(() =>
   [...new Set(rows.map((row) => row.department))].sort((a, b) => a.localeCompare(b)),
@@ -747,11 +752,29 @@ const countText = computed(() => {
   return `Showing ${start}–${end} of ${total} users`
 })
 
-/** 右侧明细面板显隐；收起时表格占满整行 */
-const sideOpen = ref(true)
+/** 右侧详情面板默认关闭，打开时展示当前 More 按钮对应的用户 */
+const sideOpen = ref(false)
+const selectedUser = ref(null)
+const selectedUserInitials = computed(
+  () =>
+    selectedUser.value?.name
+      .split(/\s+/)
+      .map((part) => part[0])
+      .slice(0, 2)
+      .join('')
+      .toUpperCase() ?? '',
+)
+const selectedUserLastSync = computed(() => {
+  if (!selectedUser.value) return '-'
+  return selectedUser.value.time
+    ? `${selectedUser.value.date} ${selectedUser.value.time}`
+    : selectedUser.value.date
+})
 
-/** 右侧详情面板固定展示 John Li（LI123456）那一行，该行不在当前页时面板转为空状态 */
-const sideRowVisible = computed(() => pageRows.value.some((row) => row.id === 'LI123456'))
+function showUserDetails(row) {
+  selectedUser.value = row
+  sideOpen.value = true
+}
 
 /** 多选：以 ISID 为 key，跨页保留 */
 const selectedIds = ref(new Set())
@@ -1101,7 +1124,12 @@ function logout() {
                 <span v-if="row.time">{{ row.time }}</span>
               </span>
               <span class="cell center">
-                <button class="more" type="button" aria-label="Row actions">
+                <button
+                  class="more"
+                  type="button"
+                  :aria-label="`Show details for ${row.name}`"
+                  @click="showUserDetails(row)"
+                >
                   <svg viewBox="0 0 18 6" aria-hidden="true">
                     <circle cx="2.4" cy="3" r="1.5" fill="#8b93a3" />
                     <circle cx="9" cy="3" r="1.5" fill="#8b93a3" />
@@ -1199,10 +1227,14 @@ function logout() {
               </span>
               <div class="stat-body">
                 <div class="stat-label">Total Users</div>
-                <div class="stat-value">512</div>
+                <div class="stat-value">{{ totalUsers }}</div>
                 <div class="stat-lines">
-                  <span class="stat-line"><i class="dot"></i>Active<span>485</span></span>
-                  <span class="stat-line"><i class="dot dot-red"></i>Inactive<span>27</span></span>
+                  <span class="stat-line"
+                    ><i class="dot"></i>Active<span>{{ activeUsers }}</span></span
+                  >
+                  <span class="stat-line"
+                    ><i class="dot dot-red"></i>Inactive<span>{{ inactiveUsers }}</span></span
+                  >
                 </div>
               </div>
             </article>
@@ -1222,7 +1254,7 @@ function logout() {
               </span>
               <div class="stat-body">
                 <div class="stat-label">Total Authorized Reports</div>
-                <div class="stat-value">1,284</div>
+                <div class="stat-value">{{ totalAuthorizedReports.toLocaleString() }}</div>
                 <div class="stat-lines">
                   <span class="note">Across all users</span>
                   <span class="note">(from Quick BI)</span>
@@ -1301,7 +1333,7 @@ function logout() {
         <!-- 右侧用户详情 -->
         <aside v-if="sideOpen" class="side">
           <div class="side-head">
-            <h2>{{ user.name }}</h2>
+            <h2>{{ selectedUser?.name || 'User details' }}</h2>
             <button
               class="close"
               type="button"
@@ -1320,20 +1352,24 @@ function logout() {
             </button>
           </div>
 
-          <template v-if="sideRowVisible">
+          <template v-if="selectedUser">
             <div class="side-user">
-              <span class="side-avatar" aria-hidden="true">JL</span>
+              <span class="side-avatar" aria-hidden="true">{{ selectedUserInitials }}</span>
               <div class="side-info">
-                <span class="badge badge-green side-status">Active</span>
+                <span class="badge side-status" :class="`badge-${toneOf(selectedUser.msdStatus)}`">
+                  {{ selectedUser.msdStatus }}
+                </span>
                 <dl class="kv">
                   <dt>ISID</dt>
-                  <dd>LI123456</dd>
+                  <dd>{{ selectedUser.id }}</dd>
                   <dt>Department</dt>
-                  <dd>Commercial</dd>
+                  <dd>{{ selectedUser.department }}</dd>
                   <dt>Email</dt>
-                  <dd>john.li@msd.com</dd>
+                  <dd>-</dd>
                   <dt>MSD User Status</dt>
-                  <dd class="ok">Active</dd>
+                  <dd :class="{ ok: selectedUser.msdStatus === 'Active' }">
+                    {{ selectedUser.msdStatus }}
+                  </dd>
                 </dl>
               </div>
             </div>
@@ -1347,15 +1383,23 @@ function logout() {
 
             <dl class="kv kv-wide">
               <dt>Quick BI Account</dt>
-              <dd>MSD_LI123456</dd>
+              <dd>{{ selectedUser.account }}</dd>
               <dt>Quick BI User ID</dt>
-              <dd>7f5a9c12e-3ef4-4d2a-9f8c...</dd>
+              <dd>{{ selectedUser.userId }}</dd>
               <dt>Mapping Status</dt>
-              <dd><span class="badge badge-green">Mapped</span></dd>
+              <dd>
+                <span class="badge" :class="`badge-${toneOf(selectedUser.mapping)}`">
+                  {{ selectedUser.mapping }}
+                </span>
+              </dd>
               <dt>User Sync Status</dt>
-              <dd><span class="badge badge-green">Success</span></dd>
+              <dd>
+                <span class="badge" :class="`badge-${toneOf(selectedUser.sync)}`">
+                  {{ selectedUser.sync }}
+                </span>
+              </dd>
               <dt>Last Sync Time</dt>
-              <dd>Oct 24, 2026 10:32</dd>
+              <dd>{{ selectedUserLastSync }}</dd>
             </dl>
 
             <div class="divider"></div>
@@ -1394,10 +1438,7 @@ function logout() {
           </template>
 
           <div v-else class="side-empty">
-            <p>
-              John Li is outside the current filters. Adjust the filters or press Reset to view
-              details.
-            </p>
+            <p>Select More on a user row to view user details.</p>
           </div>
         </aside>
       </div>

@@ -1,4 +1,5 @@
 <script setup>
+import { computed, ref } from 'vue'
 import { useRouter } from 'vue-router'
 
 /**
@@ -51,6 +52,16 @@ const reports = [
     tone: 'blue',
   },
 ]
+
+const searchQuery = ref('')
+const filteredReports = computed(() => {
+  const query = searchQuery.value.trim().toLowerCase()
+  if (!query) return reports
+
+  return reports.filter((report) =>
+    `${report.title} ${report.description}`.toLowerCase().includes(query),
+  )
+})
 </script>
 
 <template>
@@ -110,10 +121,18 @@ const reports = [
         <div class="toolbar">
           <div class="search">
             <svg class="search-icon" viewBox="0 0 24 24" aria-hidden="true">
-              <circle cx="10.5" cy="10.5" r="6.5" fill="none" stroke="currentColor" stroke-width="1.6" />
+              <circle
+                cx="10.5"
+                cy="10.5"
+                r="6.5"
+                fill="none"
+                stroke="currentColor"
+                stroke-width="1.6"
+              />
               <path d="m15.4 15.4 4 4" fill="none" stroke="currentColor" stroke-width="1.6" />
             </svg>
             <input
+              v-model="searchQuery"
               class="search-input"
               type="search"
               placeholder="Search reports..."
@@ -132,12 +151,14 @@ const reports = [
               </svg>
             </button>
           </div>
-          <span class="count">{{ reports.length }} reports</span>
+          <span class="count">
+            {{ filteredReports.length }} {{ filteredReports.length === 1 ? 'report' : 'reports' }}
+          </span>
         </div>
 
-        <!-- 报表列表（静态） -->
+        <!-- 报表列表 -->
         <ul class="report-list">
-          <li v-for="report in reports" :key="report.id" class="report-row">
+          <li v-for="report in filteredReports" :key="report.id" class="report-row">
             <span class="tile" :class="`tile-${report.tone}`" aria-hidden="true">
               <!-- 柱状图：三根等宽升序柱 -->
               <svg v-if="report.icon === 'bar'" viewBox="0 0 24 24">
@@ -169,12 +190,7 @@ const reports = [
               <svg v-else-if="report.icon === 'pie'" viewBox="0 0 24 24">
                 <circle cx="12" cy="12" r="8.2" fill="currentColor" />
                 <path d="M12 12V3.8A8.2 8.2 0 0 1 20.2 12Z" fill="#fff" opacity="0.45" />
-                <path
-                  d="M12 12V3.8M12 12h8.2"
-                  fill="none"
-                  stroke="#fff"
-                  stroke-width="1.2"
-                />
+                <path d="M12 12V3.8M12 12h8.2" fill="none" stroke="#fff" stroke-width="1.2" />
               </svg>
               <!-- 文档：圆角纸张 + 折角 + 三条文本线 -->
               <svg v-else-if="report.icon === 'doc'" viewBox="0 0 24 24">
@@ -222,6 +238,7 @@ const reports = [
             </router-link>
             <button v-else class="open" type="button">Open</button>
           </li>
+          <li v-if="filteredReports.length === 0" class="empty-state">No reports found.</li>
         </ul>
       </main>
     </div>
